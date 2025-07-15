@@ -1,0 +1,135 @@
+.characters {
+  .search-section {
+    max-width: 500px;
+    margin: 0 auto;
+
+    .form-control {
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: 2px solid #e0e0e0;
+
+      &:focus {
+        box-shadow: none;
+        border-color: #0099ff;
+      }
+    }
+  }
+
+  .character-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+    gap: 24px;
+    padding: 20px;
+    grid-auto-rows: minmax(min-content, max-content);
+  }
+
+  .character-card {
+    position: relative;
+    max-width: 152px;
+    border: 3px solid;
+    border-radius: 4px;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    transition:
+      transform 0.2s ease-out,
+      box-shadow 0.2s ease-out;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-link {
+      text-decoration: none;
+      display: block;
+      overflow: hidden;
+      border-radius: 3px;
+    }
+
+    .icon-wrapper {
+      position: relative;
+
+      .icon-container {
+        background: #fff;
+      }
+
+      .left-border,
+      .right-border {
+        position: absolute;
+        width: 8px;
+        height: 100%;
+        top: 0;
+      }
+
+      .left-border {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        clip-path: polygon(-1% 84%, -1% 100%, 98% 96%);
+      }
+
+      .right-border {
+        position: absolute;
+        right: 0;
+        bottom: -1px;
+        z-index: 3;
+        width: 100%;
+        height: 100%;
+        clip-path: polygon(101% 82%, 0 100%, 101% 100%);
+      }
+    }
+
+    .icon-box {
+      position: relative;
+      width: 100%;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+
+      .icon-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-color: hsla(0, 0%, 100%, 0.5);
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .img-wrapper {
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 100%;
+
+        .img-container {
+          position: relative;
+          align-items: center;
+          justify-items: center;
+          width: 100%;
+          font-size: 0;
+          transition: opacity 0.4s ease-out;
+          object-fit: cover;
+
+          img {
+            width: 100%;
+            height: auto;
+          }
+        }
+      }
+    }
+
+    .name-plate {
+      padding: 8px 12px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

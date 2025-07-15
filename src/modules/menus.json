@@ -1,0 +1,60 @@
+[
+  {
+    "id": "home",
+    "title": "홈",
+    "to": "/",
+    "sidebar": true
+  },
+  {
+    "id": "characters",
+    "title": "우마무스메",
+    "to": "/characters",
+    "sidebar": true
+  },
+  {
+    "id": "race",
+    "title": "레이스",
+    "to": "#",
+    "sidebar": true,
+    "submenus": [
+      {
+        "id": "raceSimulate",
+        "title": "레이스 시뮬레이터",
+        "to": "/race/simulate"
+      },
+      {
+        "id": "gearOwner",
+        "title": "코스 목록",
+        "to": "/race/owner"
+      },
+      {
+        "id": "gearOwner",
+        "title": "챔피언스미팅",
+        "to": "/race/owner"
+      },
+      {
+        "id": "gearOwner",
+        "title": "리그오브히어로스",
+        "to": "/race/owner"
+      }
+    ]
+  },
+  {
+    "id": "training",
+    "title": "육성",
+    "to": "/training",
+    "sidebar": true,
+    "submenus": [
+      {
+        "id": "gearOwner",
+        "title": "서포트카드 목록",
+        "to": "/gear/owner"
+      },
+      {
+        "id": "gearOwner",
+        "title": "스킬 목록",
+        "to": "/gear/owner"
+      }
+    ]
+  }
+]

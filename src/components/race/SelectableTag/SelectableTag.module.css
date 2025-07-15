@@ -1,0 +1,37 @@
+.tagContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-family: "Noto Sans JP", "Noto Sans KR", sans-serif !important;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #d9d9d9;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  color: #333;
+}
+
+.tag:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.selected {
+  border-color: #1890ff;
+  background-color: #f0f7ff;
+  color: #1890ff;
+}
+
+.checkmark {
+  margin-right: 4px;
+  font-weight: bold;
+}

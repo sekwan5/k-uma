@@ -1,0 +1,44 @@
+.selectContainer {
+  position: relative;
+  margin-bottom: 10px;
+  font-family: "Noto Sans JP", "Noto Sans KR", sans-serif !important;
+}
+
+.selectLabel {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 0 5px;
+  font-size: 14px;
+  color: #333;
+  z-index: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  user-select: none; /* 라벨 텍스트 선택 방지 */
+  -webkit-user-select: none; /* Safari용 */
+  -moz-user-select: none; /* Firefox용 */
+  -ms-user-select: none; /* IE/Edge용 */
+}
+
+.select {
+  width: 100%;
+  height: 45px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}
+
+/* Ant Design Select 컴포넌트의 스타일 오버라이드 */
+.select :global(.ant-select-selector) {
+  border: none !important;
+  box-shadow: none !important;
+  font-family: "Noto Sans JP", "Noto Sans KR", sans-serif !important;
+}
+
+.select:global(.ant-select-focused) :global(.ant-select-selector) {
+  border-color: #1890ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}

@@ -1,0 +1,41 @@
+.numberControl {
+  display: flex;
+  align-items: center;
+  font-family: "Noto Sans JP", "Noto Sans KR", sans-serif !important;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  background-color: #1890ff;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  user-select: none;
+  line-height: 1;
+  padding: 0;
+}
+
+.button:hover {
+  background-color: #40a9ff;
+}
+
+.button:disabled {
+  background-color: #d9d9d9;
+  cursor: not-allowed;
+}
+
+.value {
+  margin: 0 10px;
+  font-size: 18px;
+  min-width: 30px;
+  text-align: center;
+  user-select: none;
+}

@@ -1,0 +1,181 @@
+.course-chart {
+  width: 100%;
+  background: #fff;
+  padding: 20px 0px;
+  border-radius: 8px;
+
+  .distance-marker {
+    position: absolute;
+    bottom: -12px;
+    left: -20px !important;
+    z-index: 1;
+
+    .distance-label {
+      background-color: #6b4226;
+      color: white;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 15px;
+      display: inline-block;
+      min-width: 40px;
+      text-align: center;
+    }
+  }
+
+  .slope {
+    display: flex;
+    height: 80px;
+    position: relative;
+    background-color: #e8f5e9;
+
+    &-info {
+      width: 50px;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #666;
+    }
+
+    &-section {
+      position: relative;
+
+      .slope-item {
+        height: 100%;
+        background-color: rgba(144, 238, 144, 0.3);
+      }
+
+      .slope-label {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        font-size: 12px;
+        color: #666;
+      }
+
+      .distance-label {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        font-size: 11px;
+        color: #666;
+      }
+    }
+  }
+
+  .course {
+    display: flex;
+    height: 40px;
+    background-color: #f0f0f0;
+
+    &-section {
+      position: relative;
+
+      .label {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      &.straight {
+        background-color: #e6e6fa;
+        border-bottom: 3px solid #9370db;
+      }
+
+      &.corner {
+        background-color: #d8bfd8;
+        border-bottom: 3px solid #9932cc;
+        &.corner-even {
+          background-color: #dda0dd;
+          border-bottom: 3px solid #8b008b;
+        }
+      }
+    }
+  }
+
+  .phase {
+    display: flex;
+    height: 35px;
+
+    > div {
+      position: relative;
+      .label {
+        position: absolute;
+        top: 7px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+    }
+
+    &-opening {
+      width: 20%;
+      background-color: #e6f3ff;
+    }
+    &-middle {
+      width: 40%;
+      background-color: #f0f7ff;
+    }
+    &-final {
+      width: 40%;
+      background-color: #fff1f0;
+    }
+  }
+
+  .axis-x {
+    position: relative;
+    border-top: 2px solid #333;
+
+    .bars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+
+      .bar {
+        width: 1px;
+        height: 10px;
+        background: #666;
+        transform: translateY(-50%);
+      }
+    }
+
+    .labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .start,
+    .goal {
+      position: absolute;
+      bottom: -20px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .start {
+      left: 10px;
+    }
+
+    .goal {
+      right: 10px;
+    }
+
+    .title {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #333;
+    }
+  }
+}

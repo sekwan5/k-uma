@@ -1,0 +1,73 @@
+/* /////////// Custom Font Set ///////////*/
+@mixin customFonts($fontName: null, $fontSize: null, $fontWeight: normal, $fontColor: null) {
+  font-family: $fontName;
+  color: $fontColor;
+  font-size: $fontSize;
+  font-weight: $fontWeight;
+}
+
+/* /////////// Material Design Icon Font Set ///////////*/
+@mixin iconFonts(
+  $iconColor: null,
+  $iconName: null,
+  $iconValue: null,
+  $iconSize: null,
+  $iconWidth: null,
+  $iconWeight: normal,
+  $iconHeight: null
+) {
+  color: $iconColor;
+  font-family: $iconName;
+  content: $iconValue;
+  font-size: $iconSize;
+  font-weight: $iconWeight;
+  width: $iconWidth;
+  height: $iconHeight;
+  line-height: $iconHeight;
+}
+
+@mixin contsAlign(
+  $alignTop: null,
+  $alignRight: null,
+  $alignBottom: null,
+  $alignLeft: null,
+  $webkitTransform: null,
+  $transForm: null
+) {
+  position: absolute;
+  top: $alignTop;
+  right: $alignRight;
+  bottom: $alignBottom;
+  left: $alignLeft;
+  -webkit-transform: $webkitTransform;
+  transform: $transForm;
+}
+
+/* /////////// Flex Container ///////////*/
+@mixin flexCustom(
+  $flexDir: null,
+  $flexWrap: null,
+  $justifyCont: null,
+  $alignItem: null,
+  $alignCont: null,
+  $flexFlex: null
+) {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: $flexDir;
+  flex-wrap: $flexWrap;
+  justify-content: $justifyCont;
+  align-items: $alignItem;
+  align-content: $alignCont;
+  flex: $flexFlex;
+}
+
+/* /////////// Flex Item Basis ///////////*/
+@mixin flexItem($flexBasis, $basisMin-width: null, $basisMax-width: null) {
+  flex-basis: $flexBasis;
+  min-width: $basisMin-width;
+  max-width: $basisMax-width;
+}
+
+$width: 100%;

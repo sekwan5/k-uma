@@ -1,0 +1,28 @@
+$text-color-1: #232323;
+$main-color-green: #00a65e;
+$white: #fff;
+$red: #ff3d44;
+$font-black1: #111;
+$font-black5: #555;
+$font-black7: #777;
+
+$font-size-root: 16px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+) !default;
+
+$container-max-widths: (
+  sm: 100%,
+  md: 100%,
+  lg: 100%,
+  xl: 100%,
+  xxl: 100%,
+) !default;
+
+$grid-gutter-width: 20px;

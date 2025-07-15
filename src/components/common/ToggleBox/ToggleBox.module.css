@@ -1,0 +1,60 @@
+.titleContainer {
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  background-color: var(--background-color, #e6f7ff);
+}
+
+.titleContent {
+  display: flex;
+  gap: 5px;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.icon {
+  color: #333;
+  transition: transform 0.2s ease;
+}
+
+.toggleBox {
+  border: 1px solid var(--border-color, #d9d9d9);
+  border-radius: 15px;
+  overflow: hidden;
+  font-family: "Noto Sans JP", "Noto Sans KR", sans-serif !important;
+}
+
+.content {
+  /* padding: 15px 12px; */
+  border-top: 1px solid var(--border-color, #d9d9d9);
+  visibility: visible;
+  max-height: 2000px;
+  opacity: 1;
+  transition:
+    max-height 0.2s ease-out,
+    visibility 0s linear 0s,
+    opacity 0.2s ease-out,
+    padding 0.2s ease-out;
+}
+
+.contentInner {
+  padding: 15px 12px;
+}
+
+.contentCollapsed {
+  visibility: hidden;
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  border-top: none;
+  transition:
+    max-height 0.2s ease-in,
+    visibility 0s linear 0.2s,
+    opacity 0.2s ease-in,
+    padding 0.2s ease-in;
+}
