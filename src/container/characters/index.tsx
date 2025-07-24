@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import specialWeekIcon from "./specialweek_icon.png";
 
 interface Character {
@@ -14,6 +15,7 @@ interface Character {
 }
 
 export default function CharacterList() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [characters] = useState<Character[]>([
     {
@@ -33,6 +35,10 @@ export default function CharacterList() {
   const filteredCharacters = characters.filter((char) =>
     char.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  const handleCharacterClick = (characterId: string) => {
+    navigate(`/characters/${characterId}`);
+  };
 
   return (
     <div className="container characters">
@@ -57,8 +63,11 @@ export default function CharacterList() {
               borderColor: character.color.primary,
               background: character.color.primary,
             }}
+            onClick={() => handleCharacterClick(character.id)}
+            role="button"
+            tabIndex={0}
           >
-            <a className="card-link">
+            <div className="card-link">
               <div className="icon-wrapper">
                 <div className="icon-container">
                   <div className="icon-box">
@@ -94,7 +103,7 @@ export default function CharacterList() {
               >
                 {character.name}
               </div>
-            </a>
+            </div>
           </div>
         ))}
       </div>
