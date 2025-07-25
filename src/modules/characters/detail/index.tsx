@@ -1,13 +1,17 @@
 import { PageTitle } from "@/components/common/PageTitle";
 import Succession from "@/container/characters/succession";
 
-export default function CharactersDetail() {
+interface CharactersDetailProps {
+  id?: string;
+}
+
+export default function CharactersDetail({ id }: CharactersDetailProps) {
   return (
     <>
       <PageTitle depth="race">
         <h2>캐릭터 목록</h2>
       </PageTitle>
-      <Succession />
+      <Succession characterId={id} />
     </>
   );
 }

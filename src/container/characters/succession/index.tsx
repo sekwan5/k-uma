@@ -1,13 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import SuccessionTree from "./SuccessionTree";
 import "./Succession.scss";
+import { Store } from "./Store";
 
 interface SuccessionProps {
-  // 추후 필요한 props 추가
+  characterId: string;
 }
 
-const Succession: React.FC<SuccessionProps> = () => {
+const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
   const [searchTerm, setSearchTerm] = useState("");
+
+  const imgPath = import.meta.env.VITE_ASSETS_URL;
+
+  console.log("받은 캐릭터 ID:", characterId);
+
+  // characterData를 배열로 변환
+  const characters = useMemo(() => {
+    // 1. 기본 캐릭터 정보 출력
+    console.log(`=== 📊 캐릭터 정보 ===`);
+    console.log(`총 캐릭터 수: ${Store.charaNameList.length}`);
+    console.log(
+      `캐릭터 이름들: ${Store.charaNameList.slice(0, 5).join(", ")}... (처음 5개)`,
+    );
+
+    // 본인을 제외하고 관계 점수로 정렬된 캐릭터 리스트 반환
+    return Store.charaListPublic
+      .map((chara) => ({
+        id: chara.id,
+        name: chara.name,
+        imageUrl: `${imgPath}/uma_profile/${chara.icon}`,
+        relationScore: characterId
+          ? Store.parentById(characterId, chara.id)
+          : 0,
+      }))
+      .sort((a, b) => b.relationScore - a.relationScore); // 관계 점수 높은 순으로 정렬
+  }, [imgPath]);
+
+  // 검색 필터링
+  const filteredCharacters = characters.filter((char) =>
+    char.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   const handleMainClick = () => {
     console.log("메인 캐릭터 선택");
@@ -61,15 +93,18 @@ const Succession: React.FC<SuccessionProps> = () => {
             />
           </div>
           <div className="character-grid">
-            {Array(32)
-              .fill(null)
-              .map((_, index) => (
-                <div key={index} className="character-item">
-                  <div className="character-icon">
-                    <div className="level-badge">30</div>
-                  </div>
+            {filteredCharacters.map((character) => (
+              <div key={character.id} className="character-item">
+                <div className="character-icon">
+                  <img
+                    src={character.imageUrl}
+                    alt={character.name}
+                    title={character.name}
+                  />
                 </div>
-              ))}
+                <div className="level-badge">{character.relationScore}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

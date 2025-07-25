@@ -461,7 +461,7 @@ export const characterData = {
     height: "155cm",
     weight: "변화 없음",
     sizes: "B73 · W54 · H78",
-    icon: "manhatcancafe_icon.png",
+    icon: "manhattancafe_icon.png",
     succession: successionData.マンハッタンカフェ,
   },
   1025: {
@@ -500,7 +500,7 @@ export const characterData = {
     height: "163cm",
     weight: "약간 증가 (근력 운동 효과)",
     sizes: "B87 · W57 · H86",
-    icon: "mejiroyan_icon.png",
+    icon: "mejiroryan_icon.png",
     succession: successionData.メジロライアン,
   },
   1063: {
@@ -1025,7 +1025,7 @@ export const characterData = {
     height: "145cm",
     weight: "마블러스!",
     sizes: "B87 · W52 · H77",
-    icon: "marvelous_sunday_icon.png",
+    icon: "marveloussunday_icon.png",
     succession: successionData.マーベラスサンデー,
   },
   1043: {
@@ -1061,7 +1061,7 @@ export const characterData = {
     height: "166cm",
     weight: "변화 없음",
     sizes: "B84 · W55 · H80",
-    icon: "mistercb_icon.png",
+    icon: "mrcb_icon.png",
     succession: successionData.ミスターシービー,
   },
   1044: {
@@ -1938,10 +1938,10 @@ export const characterData = {
     succession: successionData.エアメサイア,
   },
   1120: {
-    eng: "Calston Light O",
+    eng: "Calstone Light O",
     name: "칼스톤 라이트 오",
     color: "#85AAE1",
-    icon: "calstonlighto_icon.png",
+    icon: "calstonelighto_icon.png",
     succession: successionData.カルストンライトオ,
   },
   1999: {
@@ -1994,10 +1994,10 @@ export const characterData = {
     succession: successionData.バブルガムフェロー,
   },
   1995: {
-    eng: "Phenomenon",
+    eng: "Fenomeno",
     name: "페노메노",
     color: "#85AAE1",
-    icon: "phenomenon_icon.png",
+    icon: "fenomeno_icon.png",
     succession: successionData.フェノーメノ,
   },
   1994: {

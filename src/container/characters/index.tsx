@@ -1,36 +1,36 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import specialWeekIcon from "./specialweek_icon.png";
-
-interface Character {
-  id: string;
-  name: string;
-  imageUrl: string;
-  rarity: number;
-  color: {
-    primary: string;
-    secondary: string;
-    background: string;
-  };
-}
+import { characterData } from "@/modules/data/characters";
 
 export default function CharacterList() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [characters] = useState<Character[]>([
-    {
-      id: "1001",
-      name: "스페셜 위크",
-      imageUrl: specialWeekIcon,
-      rarity: 3,
-      color: {
-        primary: "#EE6DCB",
-        secondary: "#FFDEF9",
-        background: "rgb(286, 256, 281)",
-      },
-    },
-    // ... 더 많은 캐릭터 데이터
-  ]);
+
+  const imgPath = import.meta.env.VITE_ASSETS_URL;
+
+  // characterData를 Character 배열로 변환
+  const characters = useMemo(() => {
+    return Object.entries(characterData).map(([id, data]) => {
+      // color가 객체인지 문자열인지 확인
+      const colorObj =
+        typeof data.color === "object" && data.color !== null
+          ? data.color
+          : {
+              primary: typeof data.color === "string" ? data.color : "#000000",
+              secondary:
+                typeof data.color === "string" ? data.color : "#000000",
+              background:
+                typeof data.color === "string" ? data.color : "#000000",
+            };
+
+      return {
+        id,
+        name: data.name,
+        imageUrl: `${imgPath}/uma_profile/${data.icon}`,
+        color: colorObj,
+      };
+    });
+  }, []);
 
   const filteredCharacters = characters.filter((char) =>
     char.name.toLowerCase().includes(searchTerm.toLowerCase()),

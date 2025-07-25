@@ -220,41 +220,57 @@
 
     .character-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      gap: 12px;
       padding: 20px;
       background: #f8f9fa;
       border-radius: 8px;
 
       .character-item {
         position: relative;
+        padding-bottom: 20px;
 
         .character-icon {
-          width: 80px;
-          height: 80px;
+          width: 70px;
+          height: 70px;
           border-radius: 50%;
           background: white;
           border: 2px solid #ddd;
           cursor: pointer;
           position: relative;
           transition: all 0.2s;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
           &:hover {
             border-color: #007bff;
             transform: translateY(-2px);
           }
 
-          .level-badge {
-            position: absolute;
-            bottom: -5px;
-            right: -5px;
-            background: #dc3545;
-            color: white;
-            border-radius: 12px;
-            padding: 2px 8px;
-            font-size: 12px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
           }
+        }
+        .level-badge {
+          position: absolute;
+          text-align: center;
+          bottom: 15px;
+          left: 50%;
+          width: 32px;
+          transform: translateX(-50%);
+          background: #dc3545;
+          color: white;
+          border-radius: 12px;
+          padding: 2px 8px;
+          font-size: 11px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          white-space: nowrap;
+          z-index: 10;
         }
       }
     }
