@@ -127,3 +127,31 @@ export interface FactorState {
   result: number[];
   maxRateIndex: number;
 }
+
+// 선택된 캐릭터 정보를 저장하는 타입
+export type SelectedCharacter = {
+  id: string;
+  name: string;
+  imageUrl: string;
+  relationScore: number;
+} | null;
+
+// 선택 순서를 정의하는 타입
+export type SelectionOrder = {
+  parent: 1 | 2;
+  position: "main" | "child1" | "child2";
+};
+
+// 트리의 모든 위치를 정의하는 타입
+export type TreePositions = {
+  parent1: {
+    main: SelectedCharacter;
+    child1: SelectedCharacter;
+    child2: SelectedCharacter;
+  };
+  parent2: {
+    main: SelectedCharacter;
+    child1: SelectedCharacter;
+    child2: SelectedCharacter;
+  };
+};

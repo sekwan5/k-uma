@@ -2,6 +2,8 @@ import React, { useState, useMemo } from "react";
 import SuccessionTree from "./SuccessionTree";
 import "./Succession.scss";
 import { Store } from "./Store";
+import CoImage from "@/components/common/CoImages";
+import { SelectionOrder, TreePositions, SelectedCharacter } from "./types";
 
 interface SuccessionProps {
   characterId: string;
@@ -9,21 +11,84 @@ interface SuccessionProps {
 
 const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
   const [searchTerm, setSearchTerm] = useState("");
-
   const imgPath = import.meta.env.VITE_ASSETS_URL;
 
-  console.log("받은 캐릭터 ID:", characterId);
+  // 선택된 캐릭터들을 저장하는 상태
+  const [selectedPositions, setSelectedPositions] = useState<TreePositions>({
+    parent1: { main: null, child1: null, child2: null },
+    parent2: { main: null, child1: null, child2: null },
+  });
+
+  // 현재 선택해야 할 위치를 저장하는 상태
+  const [currentSelection, setCurrentSelection] = useState<SelectionOrder>({
+    parent: 1,
+    position: "main",
+  });
+
+  // 빈 위치를 찾아 자동으로 다음 선택 위치를 설정하는 함수
+  const findNextEmptyPosition = () => {
+    const order: SelectionOrder[] = [
+      { parent: 1, position: "main" },
+      { parent: 1, position: "child1" },
+      { parent: 1, position: "child2" },
+      { parent: 2, position: "main" },
+      { parent: 2, position: "child1" },
+      { parent: 2, position: "child2" },
+    ];
+
+    for (const pos of order) {
+      const parentKey = `parent${pos.parent}` as keyof TreePositions;
+      if (!selectedPositions[parentKey][pos.position]) {
+        return pos;
+      }
+    }
+    return null;
+  };
+
+  // 캐릭터가 선택 가능한지 확인하는 함수
+  const isCharacterSelectable = (characterId: string): boolean => {
+    // 이미 선택된 캐릭터인지 확인
+    const isAlreadySelected = Object.values(selectedPositions).some((parent) =>
+      Object.values(parent).some((char) => char?.id === characterId),
+    );
+    return !isAlreadySelected;
+  };
+
+  // 캐릭터 선택 처리 함수
+  const handleCharacterSelect = (character: SelectedCharacter) => {
+    if (!character || !isCharacterSelectable(character.id)) return;
+
+    setSelectedPositions((prev) => {
+      const parentKey =
+        `parent${currentSelection.parent}` as keyof TreePositions;
+      return {
+        ...prev,
+        [parentKey]: {
+          ...prev[parentKey],
+          [currentSelection.position]: character,
+        },
+      };
+    });
+
+    // 항상 다음 빈 위치로 이동
+    const nextPos = findNextEmptyPosition();
+    if (nextPos) {
+      setCurrentSelection(nextPos);
+    }
+  };
+
+  // 초기화 함수
+  const handleReset = () => {
+    setSelectedPositions({
+      parent1: { main: null, child1: null, child2: null },
+      parent2: { main: null, child1: null, child2: null },
+    });
+    setCurrentSelection({ parent: 1, position: "main" });
+    setIsManualMode(false);
+  };
 
   // characterData를 배열로 변환
   const characters = useMemo(() => {
-    // 1. 기본 캐릭터 정보 출력
-    console.log(`=== 📊 캐릭터 정보 ===`);
-    console.log(`총 캐릭터 수: ${Store.charaNameList.length}`);
-    console.log(
-      `캐릭터 이름들: ${Store.charaNameList.slice(0, 5).join(", ")}... (처음 5개)`,
-    );
-
-    // 본인을 제외하고 관계 점수로 정렬된 캐릭터 리스트 반환
     return Store.charaListPublic
       .map((chara) => ({
         id: chara.id,
@@ -33,25 +98,13 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
           ? Store.parentById(characterId, chara.id)
           : 0,
       }))
-      .sort((a, b) => b.relationScore - a.relationScore); // 관계 점수 높은 순으로 정렬
-  }, [imgPath]);
+      .sort((a, b) => b.relationScore - a.relationScore);
+  }, [imgPath, characterId]);
 
   // 검색 필터링
   const filteredCharacters = characters.filter((char) =>
     char.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
-
-  const handleMainClick = () => {
-    console.log("메인 캐릭터 선택");
-  };
-
-  const handleChild1Click = () => {
-    console.log("첫 번째 자식 캐릭터 선택");
-  };
-
-  const handleChild2Click = () => {
-    console.log("두 번째 자식 캐릭터 선택");
-  };
 
   return (
     <div>
@@ -60,25 +113,29 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
           <SuccessionTree
             label="부모1"
             borderColor="#22b2fa"
-            onMainClick={handleMainClick}
-            onChild1Click={handleChild1Click}
-            onChild2Click={handleChild2Click}
+            selected={selectedPositions.parent1}
+            onMainClick={() => handleCharacterSelect(null)}
+            onChild1Click={() => handleCharacterSelect(null)}
+            onChild2Click={() => handleCharacterSelect(null)}
           />
         </div>
         <div className="succession-parent-2">
           <SuccessionTree
             label="부모2"
             borderColor="#fd6db2"
-            onMainClick={handleMainClick}
-            onChild1Click={handleChild1Click}
-            onChild2Click={handleChild2Click}
+            selected={selectedPositions.parent2}
+            onMainClick={() => handleCharacterSelect(null)}
+            onChild1Click={() => handleCharacterSelect(null)}
+            onChild2Click={() => handleCharacterSelect(null)}
           />
         </div>
 
         <div className="succession-result">{/* 결과 영역 */}</div>
 
         <div className="control-buttons">
-          <button className="reset-button">초기화</button>
+          <button className="reset-button" onClick={handleReset}>
+            초기화
+          </button>
           <button className="submit-button">자동 선택</button>
         </div>
 
@@ -93,18 +150,24 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
             />
           </div>
           <div className="character-grid">
-            {filteredCharacters.map((character) => (
-              <div key={character.id} className="character-item">
-                <div className="character-icon">
-                  <img
-                    src={character.imageUrl}
-                    alt={character.name}
-                    title={character.name}
-                  />
+            {filteredCharacters.map((character) => {
+              return (
+                <div
+                  key={character.id}
+                  className={`character-item ${isCharacterSelectable(character.id) ? "selectable" : ""}`}
+                  onClick={() => handleCharacterSelect(character)}
+                >
+                  <div className="character-icon">
+                    <CoImage
+                      src={character.imageUrl}
+                      alt={character.name}
+                      lazy={false}
+                    />
+                  </div>
+                  <div className="level-badge">{character.relationScore}</div>
                 </div>
-                <div className="level-badge">{character.relationScore}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

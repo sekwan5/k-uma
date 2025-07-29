@@ -2,7 +2,7 @@ import { PageTitle } from "@/components/common/PageTitle";
 import Succession from "@/container/characters/succession";
 
 interface CharactersDetailProps {
-  id?: string;
+  id: string;
 }
 
 export default function CharactersDetail({ id }: CharactersDetailProps) {

@@ -255,7 +255,7 @@ export class Store {
     }
 
     const scores = this.parentList(targetIndex).filter(
-      (score, index) => index !== targetIndex,
+      (_, index) => index !== targetIndex,
     );
     const nonZeroScores = scores.filter((score) => score > 0);
 

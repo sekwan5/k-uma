@@ -58,7 +58,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        padding: 43% 25% 30% 25%;
+        padding: 43% 21% 30% 21%;
         width: 100%;
         height: 100%;
 
@@ -82,6 +82,7 @@
 
       .succession-item {
         position: absolute;
+        z-index: 2;
         &.main {
           top: 8%;
           left: 50%;
@@ -140,6 +141,31 @@
                 transform: scale(1.1);
                 transition: transform 0.2s ease;
               }
+            }
+          }
+
+          .selected-character {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow:
+              0 2px 8px rgba(0, 0, 0, 0.1),
+              inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+            padding: 4px;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              border-radius: 50%;
             }
           }
         }
@@ -229,6 +255,9 @@
       .character-item {
         position: relative;
         padding-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
         .character-icon {
           width: 70px;
@@ -257,12 +286,10 @@
           }
         }
         .level-badge {
-          position: absolute;
+          position: relative;
           text-align: center;
           bottom: 15px;
-          left: 50%;
           width: 32px;
-          transform: translateX(-50%);
           background: #dc3545;
           color: white;
           border-radius: 12px;
