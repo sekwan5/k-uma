@@ -22,6 +22,7 @@ export const characterData = {
     sizes: "B81 · W56 · H81",
     icon: "specialweek_icon.png",
     succession: successionData.スペシャルウィーク,
+    keyword: "스페",
   },
   1002: {
     eng: "Silence Suzuka",
@@ -76,6 +77,7 @@ export const characterData = {
     sizes: "B92 · W58 · H88",
     icon: "maruzensky_icon.png",
     succession: successionData.マルゼンスキー,
+    keyword: "닭장",
   },
   1005: {
     eng: "Fuji Kiseki",
@@ -96,6 +98,7 @@ export const characterData = {
     sizes: "B84 · W58 · H82",
     icon: "fujikiseki_icon.png",
     succession: successionData.フジキセキ,
+    keyword: "활주로",
   },
   1006: {
     eng: "Oguri Cap",
@@ -114,6 +117,7 @@ export const characterData = {
     sizes: "B82 · W57 · H82",
     icon: "oguricap_icon.png",
     succession: successionData.オグリキャップ,
+    keyword: "",
   },
   1007: {
     eng: "Gold Ship",
@@ -132,6 +136,7 @@ export const characterData = {
     sizes: "B88 · W55 · H88",
     icon: "goldship_icon.png",
     succession: successionData.ゴールドシップ,
+    keyword: "고루시",
   },
   1008: {
     eng: "Vodka",
@@ -150,6 +155,7 @@ export const characterData = {
     sizes: "B76 · W55 · H78",
     icon: "vodka_icon.png",
     succession: successionData.ウオッカ,
+    keyword: "우오까",
   },
   1009: {
     eng: "Daiwa Scarlet",
@@ -168,6 +174,7 @@ export const characterData = {
     sizes: "B90 · W56 · H82",
     icon: "daiwascarlet_icon.png",
     succession: successionData.ダイワスカーレット,
+    keyword: "다스카",
   },
   1010: {
     eng: "Taiki Shuttle",
@@ -223,6 +230,7 @@ export const characterData = {
     sizes: "B92 · W59 · H89",
     icon: "hishiamazon_icon.png",
     succession: successionData.ヒシアマゾン,
+    keyword: "흑인,복음밥",
   },
   1013: {
     eng: "Mejiro McQueen",
@@ -241,6 +249,7 @@ export const characterData = {
     sizes: "B71 · W54 · H76",
     icon: "mejiromcqueen_icon.png",
     succession: successionData.メジロマックイーン,
+    keyword: "",
   },
   1014: {
     eng: "El Condor Pasa",
@@ -260,6 +269,7 @@ export const characterData = {
     sizes: "B89 · W58 · H86",
     icon: "elcondorpasa_icon.png",
     succession: successionData.エルコンドルパサー,
+    keyword: "엘콘",
   },
   1015: {
     eng: "T.M. Opera O",
@@ -296,6 +306,7 @@ export const characterData = {
     sizes: "B91 · W58 · H85",
     icon: "naritabrian_icon.png",
     succession: successionData.ナリタブライアン,
+    keyword: "나리브",
   },
   1016: {
     eng: "Symboli Rudolf",
@@ -332,6 +343,7 @@ export const characterData = {
     sizes: "B90 · W57 · H86",
     icon: "airgroove_icon.png",
     succession: successionData.エアグルーヴ,
+    keyword: "동탄맘",
   },
   1018: {
     eng: "Agnes Digital",
@@ -370,6 +382,7 @@ export const characterData = {
     sizes: "B77 · W55 · H80",
     icon: "seiunsky_icon.png",
     succession: successionData.セイウンスカイ,
+    keyword: "퐁퐁",
   },
   1019: {
     eng: "Tamamo Cross",
@@ -425,6 +438,7 @@ export const characterData = {
     sizes: "B93 · W61 · H88",
     icon: "biwahayahide_icon.png",
     succession: successionData.ビワハヤヒデ,
+    keyword: "대두,바나나선배",
   },
   1023: {
     eng: "Mayano Top Gun",
@@ -502,6 +516,7 @@ export const characterData = {
     sizes: "B87 · W57 · H86",
     icon: "mejiroryan_icon.png",
     succession: successionData.メジロライアン,
+    keyword: "두리안",
   },
   1063: {
     eng: "Hishi Akebono",
@@ -520,6 +535,7 @@ export const characterData = {
     sizes: "B99 · W64 · H88",
     icon: "hishiakebono_icon.png",
     succession: successionData.ヒシアケボノ,
+    keyword: "거인",
   },
   1027: {
     eng: "Yukino Bijin",
@@ -613,6 +629,7 @@ export const characterData = {
     sizes: "B85 · W57 · H82",
     icon: "admirevega_icon.png",
     succession: successionData.アドマイヤベガ,
+    keyword: "아야베",
   },
   1069: {
     eng: "Inari One",
@@ -668,6 +685,7 @@ export const characterData = {
     sizes: "B77 · W56 · H85",
     icon: "airshakur_icon.png",
     succession: successionData.エアシャカール,
+    keyword: "념글티켓",
   },
   1033: {
     eng: "Eishin Flash",
@@ -744,6 +762,7 @@ export const characterData = {
     sizes: "B85 · W58 · H82",
     icon: "goldcity_icon.png",
     succession: successionData.ゴールドシチー,
+    keyword: "시치",
   },
   1035: {
     eng: "Sakura Bakushin O",
@@ -764,6 +783,7 @@ export const characterData = {
     sizes: "B83 · W55 · H83",
     icon: "sakurabakushino_icon.png",
     succession: successionData.サクラバクシンオー,
+    keyword: "박신",
   },
   1061: {
     eng: "Seeking the Pearl",
@@ -784,6 +804,7 @@ export const characterData = {
     sizes: "B91 · W57 · H87",
     icon: "seekingthepearl_icon.png",
     succession: successionData.シーキングザパール,
+    keyword: "닭장",
   },
   1065: {
     eng: "Shinko Windy",
@@ -899,6 +920,7 @@ export const characterData = {
     sizes: "B82 · W56 · H84",
     icon: "tosenjordan_icon.png",
     succession: successionData.トーセンジョーダン,
+    keyword: "빡통",
   },
   1071: {
     eng: "Nakayama Festa",
@@ -1009,6 +1031,7 @@ export const characterData = {
     sizes: "B72 · W54 · H75",
     icon: "bikopegasus_icon.png",
     succession: successionData.ビコーペガサス,
+    keyword: "두리안유충",
   },
   1042: {
     eng: "Marvelous Sunday",
@@ -1218,6 +1241,7 @@ export const characterData = {
     sizes: "B82 · W53 · H85",
     icon: "daitakuhelios_icon.png",
     succession: successionData.ダイタクヘリオス,
+    keyword: "다타헬",
   },
   1050: {
     eng: "Twin Turbo",
@@ -1238,6 +1262,7 @@ export const characterData = {
     sizes: "B72 · W51 · H74",
     icon: "twinturbo_icon.png",
     succession: successionData.ツインターボ,
+    keyword: "더블제타",
   },
   1053: {
     eng: "Satono Diamond",
@@ -1258,6 +1283,7 @@ export const characterData = {
     sizes: "B87 · W54 · H84",
     icon: "satonodiamond_icon.png",
     succession: successionData.サトノダイヤモンド,
+    keyword: "사다몬",
   },
   1054: {
     eng: "Kitasan Black",
@@ -1276,6 +1302,7 @@ export const characterData = {
     sizes: "B85 · W56 · H88",
     icon: "kitasanblack_icon.png",
     succession: successionData.キタサンブラック,
+    keyword: "애망추",
   },
   1060: {
     eng: "Sakura Chiyono O",
@@ -1295,6 +1322,7 @@ export const characterData = {
     sizes: "B80 · W55 · H83",
     icon: "sakurachiyonoo_icon.png",
     succession: successionData.サクラチヨノオー,
+    keyword: "개",
   },
   1068: {
     eng: "Sirius Symboli",
@@ -1389,6 +1417,7 @@ export const characterData = {
     sizes: "B84 · W59 · H81",
     icon: "mejirobright_icon.png",
     succession: successionData.メジロブライト,
+    keyword: "호아아",
   },
   1075: {
     eng: "Sakura Laurel",
@@ -1426,6 +1455,7 @@ export const characterData = {
     sizes: "B86 · W56 · H83",
     icon: "naritatoproad_icon.png",
     succession: successionData.ナリタトップロード,
+    keyword: "ntr",
   },
   1076: {
     eng: "Yamanin Zephyr",
@@ -1480,6 +1510,7 @@ export const characterData = {
     sizes: "B82 · W51 · H80",
     icon: "northflight_icon.png",
     succession: successionData.ノースフライト,
+    keyword: "후짱",
   },
   1077: {
     eng: "Symboli Kris S",
@@ -1553,6 +1584,7 @@ export const characterData = {
     sizes: "B87 · W57 · H90",
     icon: "mejiroramonu_icon.png",
     succession: successionData.メジロラモーヌ,
+    keyword: "아줌마,닭장",
   },
   1080: {
     eng: "Aston Machan",
@@ -1608,6 +1640,7 @@ export const characterData = {
     sizes: "B85・W56・H80",
     icon: "chevalgrand_icon.png",
     succession: successionData.シュヴァルグラン,
+    keyword: "슈밧찌",
   },
   1098: {
     eng: "Verxina",
@@ -1628,6 +1661,7 @@ export const characterData = {
     sizes: "B83・W53・H78",
     icon: "verxina_icon.png",
     succession: successionData.ヴィルシーナ,
+    keyword: "비르시나",
   },
   1099: {
     eng: "Vivlos",
@@ -1647,6 +1681,7 @@ export const characterData = {
     sizes: "B81・W51・H86",
     icon: "vivlos_icon.png",
     succession: successionData.ヴィブロス,
+    keyword: "비브찌",
   },
   1083: {
     eng: "K.S.Miracle",
@@ -1683,6 +1718,7 @@ export const characterData = {
     sizes: "B77 · W56 · H80",
     icon: "junglepocket_icon.png",
     succession: successionData.ジャングルポケット,
+    keyword: "장포케",
   },
   1084: {
     eng: "Copano Rickey",
@@ -1758,6 +1794,7 @@ export const characterData = {
     sizes: "B80 · W52 · H81",
     icon: "soundsofearth_icon.png",
     succession: successionData.サウンズオブアース,
+    keyword: "사오어",
   },
   1101: {
     eng: "Royce and Royce",
@@ -1904,6 +1941,7 @@ export const characterData = {
     sizes: "B82 · W55 · H80",
     icon: "orfevre_icon.png",
     succession: successionData.オルフェーヴル,
+    keyword: "올페",
   },
   1116: {
     eng: "Gentildonna",
@@ -1922,6 +1960,7 @@ export const characterData = {
     sizes: "B95 · W63 · H87",
     icon: "gentildonna_icon.png",
     succession: successionData.ジェンティルドンナ,
+    keyword: "젠돈",
   },
   1117: {
     eng: "Win Variation",
@@ -1936,6 +1975,7 @@ export const characterData = {
     color: "#85AAE1",
     icon: "airmessiah_icon.png",
     succession: successionData.エアメサイア,
+    keyword: "메생이",
   },
   1120: {
     eng: "Calstone Light O",
@@ -1943,6 +1983,7 @@ export const characterData = {
     color: "#85AAE1",
     icon: "calstonelighto_icon.png",
     succession: successionData.カルストンライトオ,
+    keyword: "직선",
   },
   1999: {
     eng: "Chrono Genesis",
@@ -1950,6 +1991,7 @@ export const characterData = {
     color: "#85AAE1",
     icon: "chronogenesis_icon.png",
     succession: successionData.クロノジェネシス,
+    keyword: "크제",
   },
   1131: {
     eng: "Gran Alegria",
@@ -1957,6 +1999,7 @@ export const characterData = {
     color: "#85AAE1",
     icon: "granalegria_icon.png",
     succession: successionData.グランアレグリア,
+    keyword: "마이루",
   },
   1110: {
     eng: "Cesario",
@@ -1971,6 +2014,7 @@ export const characterData = {
     color: "#85AAE1",
     icon: "durandal_icon.png",
     succession: successionData.デュランダル,
+    keyword: "듀랑달",
   },
   1119: {
     eng: "Dream Journey",
@@ -1992,6 +2036,7 @@ export const characterData = {
     color: "#85AAE1",
     icon: "bubblegumfellow_icon.png",
     succession: successionData.バブルガムフェロー,
+    keyword: "펠라",
   },
   1995: {
     eng: "Fenomeno",
@@ -2020,5 +2065,6 @@ export const characterData = {
     color: "#85AAE1",
     icon: "lovesonlyyou_icon.png",
     succession: successionData.ラヴズオンリーユー,
+    keyword: "온리팬스",
   },
 };

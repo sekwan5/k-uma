@@ -37,3 +37,46 @@ export const jobIcon =
   "https://static.smilegatemegaport.com/live/epic7stats/assets/images/common/icon_job.png";
 export const starIcon =
   "https://static.smilegatemegaport.com/live/epic7stats/assets/images/common/icon_grade.png";
+
+// 초성 추출 함수
+export const getInitialConsonants = (str: string) => {
+  const initialConsonants = [
+    "ㄱ",
+    "ㄲ",
+    "ㄴ",
+    "ㄷ",
+    "ㄸ",
+    "ㄹ",
+    "ㅁ",
+    "ㅂ",
+    "ㅃ",
+    "ㅅ",
+    "ㅆ",
+    "ㅇ",
+    "ㅈ",
+    "ㅉ",
+    "ㅊ",
+    "ㅋ",
+    "ㅌ",
+    "ㅍ",
+    "ㅎ",
+  ];
+
+  return str
+    .split("")
+    .map((char) => {
+      const code = char.charCodeAt(0) - 0xac00;
+      if (code > -1 && code < 11172) {
+        return initialConsonants[Math.floor(code / 588)];
+      }
+      return char;
+    })
+    .join("");
+};
+
+// 초성 검색 함수
+export const matchesInitialConsonants = (text: string, search: string) => {
+  const textInitials = getInitialConsonants(text);
+  const searchInitials = getInitialConsonants(search);
+  return textInitials.includes(searchInitials);
+};

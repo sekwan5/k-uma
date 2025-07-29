@@ -6,7 +6,15 @@ interface CharaData {
   id: string; // 캐릭터 ID (1001, 1002 등)
   name: string; // 캐릭터 이름
   icon: string; // 캐릭터 이름
+  keyword?: string; // 캐릭터 키워드
   relationSet: Set<number>; // 관계를 나타내는 숫자 집합
+  color?:
+    | {
+        primary: string;
+        secondary: string;
+        background: string;
+      }
+    | string;
 }
 
 // 캐릭터 관계 데이터를 관리하는 Store 클래스
@@ -33,7 +41,9 @@ export class Store {
         id,
         name: data.name,
         icon: data.icon,
+        keyword: "keyword" in data ? data.keyword : undefined,
         relationSet: new Set(successionArray),
+        color: data.color,
       };
     });
 

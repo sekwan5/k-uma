@@ -43,10 +43,13 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
           <div className="succession-border-top"></div>
           <div className="succession-border-bottom"></div>
         </div>
-        <div
-          className={`succession-item main ${currentPosition === "main" ? "current" : ""}`}
-        >
-          <div className="character-button">
+        <div className={`succession-item main`}>
+          <div
+            className="character-button"
+            style={{
+              border: `${currentPosition === "main" ? `4px solid ${borderColor}` : ""}`,
+            }}
+          >
             <div className="ratio-container">
               {selected?.main ? (
                 <div className="selected-character">
