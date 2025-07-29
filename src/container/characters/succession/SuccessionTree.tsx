@@ -58,6 +58,9 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
                     alt={selected.main.name}
                     lazy={false}
                   />
+                  <div className="level-badge">
+                    {selected.main.relationScore}
+                  </div>
                 </div>
               ) : (
                 <button className="add-button" onClick={onMainClick}>
@@ -67,10 +70,13 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
             </div>
           </div>
         </div>
-        <div
-          className={`succession-item child-1 ${currentPosition === "child1" ? "current" : ""}`}
-        >
-          <div className="character-button">
+        <div className={`succession-item child-1`}>
+          <div
+            className="character-button"
+            style={{
+              border: `${currentPosition === "child1" ? `4px solid ${borderColor}` : ""}`,
+            }}
+          >
             <div className="ratio-container">
               {selected?.child1 ? (
                 <div className="selected-character">
@@ -79,6 +85,9 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
                     alt={selected.child1.name}
                     lazy={false}
                   />
+                  <div className="level-badge">
+                    {selected.child1.relationScore}
+                  </div>
                 </div>
               ) : (
                 <button className="add-button" onClick={onChild1Click}>
@@ -88,10 +97,13 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
             </div>
           </div>
         </div>
-        <div
-          className={`succession-item child-2 ${currentPosition === "child2" ? "current" : ""}`}
-        >
-          <div className="character-button">
+        <div className={`succession-item child-2`}>
+          <div
+            className="character-button"
+            style={{
+              border: `${currentPosition === "child2" ? `4px solid ${borderColor}` : ""}`,
+            }}
+          >
             <div className="ratio-container">
               {selected?.child2 ? (
                 <div className="selected-character">
@@ -100,6 +112,9 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
                     alt={selected.child2.name}
                     lazy={false}
                   />
+                  <div className="level-badge">
+                    {selected.child2.relationScore}
+                  </div>
                 </div>
               ) : (
                 <button className="add-button" onClick={onChild2Click}>

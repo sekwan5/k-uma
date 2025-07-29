@@ -1,11 +1,13 @@
-import React, { useState, useMemo } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import SuccessionTree from "./SuccessionTree";
 import "./Succession.scss";
 import { Store } from "./Store";
-import CoImage from "@/components/common/CoImages";
 import { SelectionOrder, TreePositions } from "./types";
-import { matchesInitialConsonants } from "@/modules/utils";
 import { Character } from "../succession";
+import CharacterItem from "./CharacterItem";
+import useDebounce from "@/hooks/useDebounce";
+import { filteredCharacters } from "../hooks";
 
 interface SuccessionProps {
   characterId: string;
@@ -13,6 +15,7 @@ interface SuccessionProps {
 
 const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const imgPath = import.meta.env.VITE_ASSETS_URL;
 
   // 선택된 캐릭터들
@@ -28,67 +31,100 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
   });
 
   // 빈 위치를 찾아 자동으로 다음 선택 위치를 설정하는 함수
-  // const findNextEmptyPosition = () => {
-  //   const order: SelectionOrder[] = [
-  //     { parent: 1, position: "main" },
-  //     { parent: 1, position: "child1" },
-  //     { parent: 1, position: "child2" },
-  //     { parent: 2, position: "main" },
-  //     { parent: 2, position: "child1" },
-  //     { parent: 2, position: "child2" },
-  //   ];
+  const findNextEmptyPosition = () => {
+    const order: SelectionOrder[] = [
+      { parent: 1, position: "main" },
+      { parent: 1, position: "child1" },
+      { parent: 1, position: "child2" },
+      { parent: 2, position: "main" },
+      { parent: 2, position: "child1" },
+      { parent: 2, position: "child2" },
+    ];
 
-  //   for (const pos of order) {
-  //     const parentKey = `parent${pos.parent}` as keyof TreePositions;
-  //     if (!selectedPositions[parentKey][pos.position]) {
-  //       return pos;
-  //     }
-  //   }
-  //   return null;
-  // };
+    for (const pos of order) {
+      const parentKey = `parent${pos.parent}` as keyof TreePositions;
+      if (!selectedPositions[parentKey][pos.position]) {
+        console.log("pos", pos);
+        return pos;
+      }
+    }
+    return null;
+  };
 
   // 캐릭터가 선택 가능한지 확인하는 함수
-  const isCharacterSelectable = (characterId: string): boolean => {
-    // 이미 선택된 캐릭터인지 확인
-    const isAlreadySelected = Object.values(selectedPositions).some((parent) =>
-      Object.values(parent).some((char) => char?.id === characterId),
-    );
-    return !isAlreadySelected;
-  };
+  const isCharacterSelectable = useCallback(
+    (characterId: string): boolean => {
+      // 현재 선택하려는 부모와 위치
+      const currentParentKey =
+        `parent${currentSelection.parent}` as keyof TreePositions;
+      const otherParentKey =
+        `parent${currentSelection.parent === 1 ? 2 : 1}` as keyof TreePositions;
+      const currentParent = selectedPositions[currentParentKey];
+      const otherParent = selectedPositions[otherParentKey];
+
+      // 현재 선택하려는 위치가 main인 경우
+      if (currentSelection.position === "main") {
+        // 다른 부모의 main에 선택된 캐릭터는 선택 불가
+        if (otherParent.main?.id === characterId) return false;
+      }
+      // 현재 선택하려는 위치가 child1인 경우
+      else if (currentSelection.position === "child1") {
+        // 같은 부모의 main이나 child2에 선택된 캐릭터는 선택 불가
+        if (
+          currentParent.main?.id === characterId ||
+          currentParent.child2?.id === characterId
+        )
+          return false;
+      }
+      // 현재 선택하려는 위치가 child2인 경우
+      else if (currentSelection.position === "child2") {
+        // 같은 부모의 main이나 child1에 선택된 캐릭터는 선택 불가
+        if (
+          currentParent.main?.id === characterId ||
+          currentParent.child1?.id === characterId
+        )
+          return false;
+      }
+
+      return true;
+    },
+    [currentSelection, selectedPositions],
+  );
 
   // 캐릭터 선택 처리 함수
-  const handleCharacterSelect = (value: Character) => {
-    console.log("value", value);
-    // if (!character || !isCharacterSelectable(character.id)) return;
-    // setSelectedPositions((prev) => {
-    //   const parentKey =
-    //     `parent${currentSelection.parent}` as keyof TreePositions;
-    //   return {
-    //     ...prev,
-    //     [parentKey]: {
-    //       ...prev[parentKey],
-    //       [currentSelection.position]: character,
-    //     },
-    //   };
-    // });
-    // // 항상 다음 빈 위치로 이동
-    // const nextPos = findNextEmptyPosition();
-    // if (nextPos) {
-    //   setCurrentSelection(nextPos);
-    // }
+  const handleCharacterSelect = (character: Character) => {
+    if (!character || !isCharacterSelectable(character.id)) return;
+    setSelectedPositions((prev) => {
+      const parentKey =
+        `parent${currentSelection.parent}` as keyof TreePositions;
+      return {
+        ...prev,
+        [parentKey]: {
+          ...prev[parentKey],
+          [currentSelection.position]: character,
+        },
+      };
+    });
   };
 
+  useEffect(() => {
+    const nextPos = findNextEmptyPosition();
+    if (nextPos) {
+      setCurrentSelection(nextPos);
+    }
+  }, [selectedPositions]);
+
   // 초기화 함수
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setSelectedPositions({
       parent1: { main: null, child1: null, child2: null },
       parent2: { main: null, child1: null, child2: null },
     });
     setCurrentSelection({ parent: 1, position: "main" });
-  };
+  }, []);
 
   // characterData를 배열로 변환
-  const characters: Character[] = useMemo(() => {
+  const characters = useMemo(() => {
     return Store.charaListPublic
       .map((chara) => ({
         id: chara.id,
@@ -100,14 +136,17 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
           : 0,
       }))
       .sort((a, b) => b.relationScore - a.relationScore);
-  }, [imgPath, characterId]);
+  }, []);
 
-  // 검색 필터링
-  const filteredCharacters = characters.filter(
-    (char) =>
-      char.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      matchesInitialConsonants(char.name, searchTerm),
-  );
+  const filtered = useMemo(() => {
+    // 먼저 선택 가능한 캐릭터만 필터링
+    const selectableCharacters = characters.filter((char) =>
+      isCharacterSelectable(char.id),
+    );
+
+    // 그 다음 검색어로 필터링
+    return filteredCharacters(selectableCharacters, debouncedSearchTerm);
+  }, [characters, debouncedSearchTerm, isCharacterSelectable]);
 
   return (
     <div>
@@ -122,26 +161,18 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
                 ? currentSelection.position
                 : undefined
             }
-            // isActive={currentSelection.parent === 1}
-            // onMainClick={() => handleCharacterSelect()}
-            // onChild1Click={() => handleCharacterSelect()}
-            // onChild2Click={() => handleCharacterSelect()}
           />
         </div>
         <div className="succession-parent-2">
           <SuccessionTree
             label="부모2"
             borderColor="#fd6db2"
-            // selected={selectedPositions.parent2}
-            // currentPosition={
-            //   currentSelection.parent === 2
-            //     ? currentSelection.position
-            //     : undefined
-            // }
-            // isActive={currentSelection.parent === 2}
-            // onMainClick={() => handleCharacterSelect()}
-            // onChild1Click={() => handleCharacterSelect()}
-            // onChild2Click={() => handleCharacterSelect()}
+            selected={selectedPositions.parent2}
+            currentPosition={
+              currentSelection.parent === 2
+                ? currentSelection.position
+                : undefined
+            }
           />
         </div>
 
@@ -165,24 +196,14 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
             />
           </div>
           <div className="character-grid">
-            {filteredCharacters.map((character) => {
-              return (
-                <div
-                  key={character.id}
-                  className={`character-item ${isCharacterSelectable(character.id) ? "selectable" : ""}`}
-                  onClick={() => handleCharacterSelect(character)}
-                >
-                  <div className="character-icon">
-                    <CoImage
-                      src={character.imageUrl}
-                      alt={character.name}
-                      lazy={false}
-                    />
-                  </div>
-                  <div className="level-badge">{character.relationScore}</div>
-                </div>
-              );
-            })}
+            {filtered.map((character) => (
+              <CharacterItem
+                key={character.id}
+                character={character}
+                isSelectable={isCharacterSelectable(character.id)}
+                onClick={handleCharacterSelect}
+              />
+            ))}
           </div>
         </div>
       </div>

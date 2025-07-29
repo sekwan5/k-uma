@@ -168,6 +168,23 @@
               object-fit: cover;
               border-radius: 50%;
             }
+
+            .level-badge {
+              position: absolute;
+              text-align: center;
+              bottom: -10px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 32px;
+              background: #dc3545;
+              color: white;
+              border-radius: 12px;
+              padding: 2px 8px;
+              font-size: 11px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              white-space: nowrap;
+              z-index: 10;
+            }
           }
         }
       }

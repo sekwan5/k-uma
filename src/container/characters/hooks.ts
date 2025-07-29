@@ -40,7 +40,6 @@ export const filteredCharacters = (
   characters: Character[],
   txt: string,
 ): Character[] => {
-  console.log("characters", characters[0]);
   if (!txt) return characters;
 
   const searchTerm = txt.toLowerCase();
