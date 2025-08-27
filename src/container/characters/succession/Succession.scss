@@ -23,13 +23,45 @@
   .succession-parent-1 {
     grid-area: parent1;
   }
-
   .succession-parent-2 {
     grid-area: parent2;
   }
 
   .succession-result {
     grid-area: result;
+
+    .compatibility-score {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        margin: 0 0 16px 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .score-display {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 4px;
+
+        .score-value {
+          font-size: 32px;
+          font-weight: 700;
+          color: #22b2fa;
+        }
+
+        .score-label {
+          font-size: 14px;
+          color: #666;
+        }
+      }
+    }
   }
 
   .tree-box {
@@ -188,6 +220,52 @@
           }
         }
       }
+      .connection-line {
+        position: absolute;
+        top: 28%;
+        width: 30%;
+        height: 2px;
+        background: repeating-linear-gradient(
+          to right,
+          #b3b0b6 0,
+          #b3b0b6 4px,
+          transparent 4px,
+          transparent 8px
+        );
+        transform: translateY(-50%);
+        z-index: 1;
+
+        &.parent1 {
+          left: 70%;
+        }
+        &.parent2 {
+          right: 70%;
+        }
+        .level-badge {
+          position: absolute;
+          text-align: center;
+          bottom: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+
+      // 부모1과 부모2가 모두 선택되었을 때 진한색으로 변경
+      &.both-parents-selected {
+        .connection-line {
+          background: repeating-linear-gradient(
+            to right,
+            #666 0,
+            #666 4px,
+            transparent 4px,
+            transparent 8px
+          );
+
+          .level-badge {
+            color: #666;
+          }
+        }
+      }
     }
   }
 
@@ -303,21 +381,21 @@
             border-radius: 50%;
           }
         }
-        .level-badge {
-          position: relative;
-          text-align: center;
-          bottom: 15px;
-          width: 32px;
-          background: #dc3545;
-          color: white;
-          border-radius: 12px;
-          padding: 2px 8px;
-          font-size: 11px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          white-space: nowrap;
-          z-index: 10;
-        }
       }
     }
+  }
+  .level-badge {
+    position: relative;
+    text-align: center;
+    bottom: 15px;
+    width: 32px;
+    background: #dc3545;
+    color: white;
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 11px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    z-index: 10;
   }
 }

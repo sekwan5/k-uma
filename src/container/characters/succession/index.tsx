@@ -13,7 +13,7 @@ interface SuccessionProps {
   characterId: string;
 }
 
-const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
+export default function Succession({ characterId }: SuccessionProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const imgPath = import.meta.env.VITE_ASSETS_URL;
@@ -126,17 +126,44 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
   // characterData를 배열로 변환
   const characters = useMemo(() => {
     return Store.charaListPublic
-      .map((chara) => ({
-        id: chara.id,
-        name: chara.name,
-        keyword: chara.keyword,
-        imageUrl: `${imgPath}/uma_profile/${chara.icon}`,
-        relationScore: characterId
-          ? Store.parentById(characterId, chara.id)
-          : 0,
-      }))
+      .map((chara) => {
+        let relationScore = 0;
+
+        // 현재 선택해야 할 위치에 따라 관계 점수 계산
+        if (currentSelection.position === "main") {
+          // 부모 선택 차례 - 부모 관계 점수
+          relationScore = characterId
+            ? Store.parentById(characterId, chara.id)
+            : 0;
+        } else {
+          // 자식 선택 차례 - 조부모 관계 점수
+          const selectedParent =
+            selectedPositions[
+              `parent${currentSelection.parent}` as keyof TreePositions
+            ].main;
+          if (selectedParent) {
+            relationScore = Store.grandParentById(
+              characterId, // 자식 말
+              selectedParent.id, // 선택된 부모
+              chara.id, // 계산할 캐릭터
+            );
+          } else {
+            relationScore = characterId
+              ? Store.parentById(characterId, chara.id)
+              : 0;
+          }
+        }
+
+        return {
+          id: chara.id,
+          name: chara.name,
+          keyword: chara.keyword,
+          imageUrl: `${imgPath}/uma_profile/${chara.icon}`,
+          relationScore,
+        };
+      })
       .sort((a, b) => b.relationScore - a.relationScore);
-  }, []);
+  }, [currentSelection, selectedPositions, characterId]);
 
   const filtered = useMemo(() => {
     // 먼저 선택 가능한 캐릭터만 필터링
@@ -148,10 +175,35 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
     return filteredCharacters(selectableCharacters, debouncedSearchTerm);
   }, [characters, debouncedSearchTerm, isCharacterSelectable]);
 
+  const parentScore = useMemo(() => {
+    return Store.parent(
+      Store.getIndexById(selectedPositions.parent1.main?.id || ""),
+      Store.getIndexById(selectedPositions.parent2.main?.id || ""),
+    );
+  }, [selectedPositions]);
+
+  // 총 상성점수 계산
+  const totalCompatibilityScore = useMemo(() => {
+    return Store.calcTotalCompatibility(
+      characterId,
+      selectedPositions.parent1.main?.id || null,
+      selectedPositions.parent2.main?.id || null,
+      selectedPositions.parent1.child1?.id || null,
+      selectedPositions.parent1.child2?.id || null,
+      selectedPositions.parent2.child1?.id || null,
+      selectedPositions.parent2.child2?.id || null,
+    );
+  }, [selectedPositions, characterId]);
+
+  // 양쪽 부모가 모두 선택되었는지 확인
+  const isBothParentsSelected = useMemo(() => {
+    return !!(selectedPositions.parent1.main && selectedPositions.parent2.main);
+  }, [selectedPositions.parent1.main, selectedPositions.parent2.main]);
+
   return (
     <div>
       <div className="succession-container">
-        <div className="succession-parent-1">
+        <div className={`succession-parent-1 `}>
           <SuccessionTree
             label="부모1"
             borderColor="#22b2fa"
@@ -161,9 +213,11 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
                 ? currentSelection.position
                 : undefined
             }
+            parentScore={parentScore}
+            isBothParentsSelected={isBothParentsSelected}
           />
         </div>
-        <div className="succession-parent-2">
+        <div className={`succession-parent-2 `}>
           <SuccessionTree
             label="부모2"
             borderColor="#fd6db2"
@@ -173,10 +227,20 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
                 ? currentSelection.position
                 : undefined
             }
+            parentScore={parentScore}
+            isBothParentsSelected={isBothParentsSelected}
           />
         </div>
 
-        <div className="succession-result">{/* 결과 영역 */}</div>
+        <div className="succession-result">
+          <div className="compatibility-score">
+            <h3>총 상성점수{parentScore}</h3>
+            <div className="score-display">
+              <span className="score-value">{totalCompatibilityScore}</span>
+              <span className="score-label">점</span>
+            </div>
+          </div>
+        </div>
 
         <div className="control-buttons">
           <button className="reset-button" onClick={handleReset}>
@@ -209,6 +273,4 @@ const Succession: React.FC<SuccessionProps> = ({ characterId }) => {
       </div>
     </div>
   );
-};
-
-export default Succession;
+}

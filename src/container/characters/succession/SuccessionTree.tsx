@@ -16,6 +16,8 @@ interface SuccessionTreeProps {
   onMainClick?: () => void;
   onChild1Click?: () => void;
   onChild2Click?: () => void;
+  parentScore?: number;
+  isBothParentsSelected: boolean;
 }
 
 const SuccessionTree: React.FC<SuccessionTreeProps> = ({
@@ -27,7 +29,10 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
   onMainClick,
   onChild1Click,
   onChild2Click,
+  parentScore = 0,
+  isBothParentsSelected = false,
 }) => {
+  const isParent1 = label === "부모1";
   return (
     <div className={`tree-box ${isActive ? "active" : ""}`}>
       {label && (
@@ -123,6 +128,13 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
               )}
             </div>
           </div>
+        </div>
+        <div
+          className={`connection-line ${isParent1 ? "parent1" : "parent2"} ${
+            isBothParentsSelected ? "both-parents-selected" : ""
+          }`}
+        >
+          {!isParent1 && <div className="level-badge">{parentScore}</div>}
         </div>
       </div>
     </div>

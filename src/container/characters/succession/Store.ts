@@ -296,4 +296,74 @@ export class Store {
       this.parentMap[0]?.length,
     );
   }
+
+  // 총 상성점수 계산 (원본 Kotlin 코드의 calcTotalRelation 함수 기반)
+  static calcTotalCompatibility(
+    childId: string,
+    parent1Id: string | null,
+    parent2Id: string | null,
+    parent11Id: string | null,
+    parent12Id: string | null,
+    parent21Id: string | null,
+    parent22Id: string | null,
+  ): number {
+    let totalScore = 0;
+
+    // 자식 말 인덱스
+    const childIndex = childId ? this.getIndexById(childId) : -1;
+
+    // 부모1 인덱스
+    const parent1Index = parent1Id ? this.getIndexById(parent1Id) : -1;
+
+    // 부모2 인덱스
+    const parent2Index = parent2Id ? this.getIndexById(parent2Id) : -1;
+
+    // 부모1의 자식들 인덱스
+    const parent11Index = parent11Id ? this.getIndexById(parent11Id) : -1;
+    const parent12Index = parent12Id ? this.getIndexById(parent12Id) : -1;
+
+    // 부모2의 자식들 인덱스
+    const parent21Index = parent21Id ? this.getIndexById(parent21Id) : -1;
+    const parent22Index = parent22Id ? this.getIndexById(parent22Id) : -1;
+
+    // 원본 공식 적용
+    if (childIndex !== -1 && parent1Index !== -1) {
+      totalScore += this.parent(childIndex, parent1Index);
+    }
+    if (childIndex !== -1 && parent2Index !== -1) {
+      totalScore += this.parent(childIndex, parent2Index);
+    }
+    if (parent1Index !== -1 && parent2Index !== -1) {
+      totalScore += this.parent(parent1Index, parent2Index);
+    }
+    if (childIndex !== -1 && parent1Index !== -1 && parent11Index !== -1) {
+      totalScore += this.grandParent(childIndex, parent1Index, parent11Index);
+    }
+    if (childIndex !== -1 && parent1Index !== -1 && parent12Index !== -1) {
+      totalScore += this.grandParent(childIndex, parent1Index, parent12Index);
+    }
+    if (childIndex !== -1 && parent2Index !== -1 && parent21Index !== -1) {
+      totalScore += this.grandParent(childIndex, parent2Index, parent21Index);
+    }
+    if (childIndex !== -1 && parent2Index !== -1 && parent22Index !== -1) {
+      totalScore += this.grandParent(childIndex, parent2Index, parent22Index);
+    }
+
+    return totalScore;
+  }
+
+  // 부모들 간의 관계 점수만 계산
+  static calcParentRelation(
+    parent1Id: string | null,
+    parent2Id: string | null,
+  ): number {
+    if (!parent1Id || !parent2Id) return 0;
+
+    const parent1Index = this.getIndexById(parent1Id);
+    const parent2Index = this.getIndexById(parent2Id);
+
+    if (parent1Index === -1 || parent2Index === -1) return 0;
+
+    return this.parent(parent1Index, parent2Index);
+  }
 }

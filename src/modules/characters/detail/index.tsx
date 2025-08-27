@@ -1,5 +1,5 @@
 import { PageTitle } from "@/components/common/PageTitle";
-import Succession from "@/container/characters/succession";
+import Succession from "@/container/characters/succession/index";
 
 interface CharactersDetailProps {
   id: string;
