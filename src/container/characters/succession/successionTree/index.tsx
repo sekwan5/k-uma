@@ -1,7 +1,9 @@
 import React from "react";
-import AddButton from "@/components/common/AddButton";
-import { SelectedCharacter } from "./types";
+// import CharacterPosition from "./CharacterPosition";
+// import ConnectionLine from "./ConnectionLine";
+import { SelectedCharacter } from "../types";
 import CoImage from "@/components/common/CoImages";
+import AddButton from "@/components/common/AddButton";
 
 interface SuccessionTreeProps {
   label?: string;
@@ -16,6 +18,9 @@ interface SuccessionTreeProps {
   onMainClick?: () => void;
   onChild1Click?: () => void;
   onChild2Click?: () => void;
+  onMainRemove?: () => void;
+  onChild1Remove?: () => void;
+  onChild2Remove?: () => void;
   parentScore?: number;
   isBothParentsSelected: boolean;
 }
@@ -29,6 +34,9 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
   onMainClick,
   onChild1Click,
   onChild2Click,
+  onMainRemove,
+  onChild1Remove,
+  onChild2Remove,
   parentScore = 0,
   isBothParentsSelected = false,
 }) => {
@@ -52,10 +60,13 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
           <div
             className="character-button"
             style={{
-              border: `${currentPosition === "main" ? `4px solid ${borderColor}` : ""}`,
+              border:
+                currentPosition === "main"
+                  ? `4px solid ${borderColor}`
+                  : "4px solid transparent",
             }}
           >
-            <div className="ratio-container">
+            <div className="ratio-container" onClick={onMainClick}>
               {selected?.main ? (
                 <div className="selected-character">
                   <CoImage
@@ -66,9 +77,14 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
                   <div className="level-badge">
                     {selected.main.relationScore}
                   </div>
+                  {currentPosition === "main" && (
+                    <button className="remove-button" onClick={onMainRemove}>
+                      <span>×</span>
+                    </button>
+                  )}
                 </div>
               ) : (
-                <button className="add-button" onClick={onMainClick}>
+                <button className="add-button">
                   <AddButton />
                 </button>
               )}
@@ -79,10 +95,13 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
           <div
             className="character-button"
             style={{
-              border: `${currentPosition === "child1" ? `4px solid ${borderColor}` : ""}`,
+              border:
+                currentPosition === "child1"
+                  ? `4px solid ${borderColor}`
+                  : "4px solid transparent",
             }}
           >
-            <div className="ratio-container">
+            <div className="ratio-container" onClick={onChild1Click}>
               {selected?.child1 ? (
                 <div className="selected-character">
                   <CoImage
@@ -93,20 +112,28 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
                   <div className="level-badge">
                     {selected.child1.relationScore}
                   </div>
+                  {currentPosition === "child1" && (
+                    <button className="remove-button" onClick={onChild1Remove}>
+                      <span>×</span>
+                    </button>
+                  )}
                 </div>
               ) : (
-                <button className="add-button" onClick={onChild1Click}>
+                <button className="add-button">
                   <AddButton />
                 </button>
               )}
             </div>
           </div>
         </div>
-        <div className={`succession-item child-2`}>
+        <div className={`succession-item child-2`} onClick={onChild2Click}>
           <div
             className="character-button"
             style={{
-              border: `${currentPosition === "child2" ? `4px solid ${borderColor}` : ""}`,
+              border:
+                currentPosition === "child2"
+                  ? `4px solid ${borderColor}`
+                  : "4px solid transparent",
             }}
           >
             <div className="ratio-container">
@@ -120,9 +147,14 @@ const SuccessionTree: React.FC<SuccessionTreeProps> = ({
                   <div className="level-badge">
                     {selected.child2.relationScore}
                   </div>
+                  {currentPosition === "child2" && (
+                    <button className="remove-button" onClick={onChild2Remove}>
+                      <span>×</span>
+                    </button>
+                  )}
                 </div>
               ) : (
-                <button className="add-button" onClick={onChild2Click}>
+                <button className="add-button">
                   <AddButton />
                 </button>
               )}

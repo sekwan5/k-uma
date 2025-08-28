@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useMemo, useCallback, useEffect } from "react";
-import SuccessionTree from "./SuccessionTree";
+import SuccessionTree from "./successionTree";
 import SuccessionResult from "./SuccessionResult";
 import "./Succession.scss";
 import { Store } from "./Store";
@@ -31,25 +31,12 @@ export default function Succession({ characterId }: SuccessionProps) {
     position: "main",
   });
 
-  // 빈 위치를 찾아 자동으로 다음 선택 위치를 설정하는 함수
-  const findNextEmptyPosition = () => {
-    const order: SelectionOrder[] = [
-      { parent: 1, position: "main" },
-      { parent: 1, position: "child1" },
-      { parent: 1, position: "child2" },
-      { parent: 2, position: "main" },
-      { parent: 2, position: "child1" },
-      { parent: 2, position: "child2" },
-    ];
-
-    for (const pos of order) {
-      const parentKey = `parent${pos.parent}` as keyof TreePositions;
-      if (!selectedPositions[parentKey][pos.position]) {
-        console.log("pos", pos);
-        return pos;
-      }
-    }
-    return null;
+  // 선택 위치를 클릭으로 변경하는 함수
+  const handlePositionClick = (
+    parent: 1 | 2,
+    position: "main" | "child1" | "child2",
+  ) => {
+    setCurrentSelection({ parent, position });
   };
 
   // 캐릭터가 선택 가능한지 확인하는 함수
@@ -92,22 +79,59 @@ export default function Succession({ characterId }: SuccessionProps) {
     [currentSelection, selectedPositions],
   );
 
-  // 캐릭터 선택 처리 함수
-  const handleCharacterSelect = (character: Character) => {
-    if (!character || !isCharacterSelectable(character.id)) return;
-    setSelectedPositions((prev) => {
-      const parentKey =
-        `parent${currentSelection.parent}` as keyof TreePositions;
-      return {
-        ...prev,
-        [parentKey]: {
-          ...prev[parentKey],
-          [currentSelection.position]: character,
-        },
-      };
-    });
+  // 캐릭터 제거 함수
+  const handleCharacterRemove = (
+    parent: 1 | 2,
+    position: "main" | "child1" | "child2",
+  ) => {
+    const parentKey = `parent${parent}` as keyof TreePositions;
+    setSelectedPositions((prev) => ({
+      ...prev,
+      [parentKey]: {
+        ...prev[parentKey],
+        [position]: null,
+      },
+    }));
   };
 
+  // 캐릭터 선택 처리 함수
+  const handleCharacterSelect = (character: Character) => {
+    if (!character) return;
+
+    // 선택 가능한 캐릭터인 경우 선택
+    if (!isCharacterSelectable(character.id)) return;
+
+    const parentKey = `parent${currentSelection.parent}` as keyof TreePositions;
+    setSelectedPositions((prev) => ({
+      ...prev,
+      [parentKey]: {
+        ...prev[parentKey],
+        [currentSelection.position]: character,
+      },
+    }));
+  };
+
+  // 빈 위치를 찾아 자동으로 다음 선택 위치를 설정하는 함수
+  const findNextEmptyPosition = () => {
+    const order: SelectionOrder[] = [
+      { parent: 1, position: "main" },
+      { parent: 1, position: "child1" },
+      { parent: 1, position: "child2" },
+      { parent: 2, position: "main" },
+      { parent: 2, position: "child1" },
+      { parent: 2, position: "child2" },
+    ];
+
+    for (const pos of order) {
+      const parentKey = `parent${pos.parent}` as keyof TreePositions;
+      if (!selectedPositions[parentKey][pos.position]) {
+        return pos;
+      }
+    }
+    return null;
+  };
+
+  // 자동으로 다음 선택 위치를 설정하는 useEffect
   useEffect(() => {
     const nextPos = findNextEmptyPosition();
     if (nextPos) {
@@ -232,6 +256,12 @@ export default function Succession({ characterId }: SuccessionProps) {
             }
             parentScore={parentScore}
             isBothParentsSelected={isBothParentsSelected}
+            onMainClick={() => handlePositionClick(1, "main")}
+            onChild1Click={() => handlePositionClick(1, "child1")}
+            onChild2Click={() => handlePositionClick(1, "child2")}
+            onMainRemove={() => handleCharacterRemove(1, "main")}
+            onChild1Remove={() => handleCharacterRemove(1, "child1")}
+            onChild2Remove={() => handleCharacterRemove(1, "child2")}
           />
         </div>
         <div className={`succession-parent-2 `}>
@@ -246,6 +276,12 @@ export default function Succession({ characterId }: SuccessionProps) {
             }
             parentScore={parentScore}
             isBothParentsSelected={isBothParentsSelected}
+            onMainClick={() => handlePositionClick(2, "main")}
+            onChild1Click={() => handlePositionClick(2, "child1")}
+            onChild2Click={() => handlePositionClick(2, "child2")}
+            onMainRemove={() => handleCharacterRemove(2, "main")}
+            onChild1Remove={() => handleCharacterRemove(2, "child1")}
+            onChild2Remove={() => handleCharacterRemove(2, "child2")}
           />
         </div>
 
