@@ -23,17 +23,17 @@
         "to": "/race/simulate"
       },
       {
-        "id": "gearOwner",
+        "id": "courseList",
         "title": "코스 목록",
         "to": "/race/owner"
       },
       {
-        "id": "gearOwner",
+        "id": "championsMeeting",
         "title": "챔피언스미팅",
         "to": "/race/owner"
       },
       {
-        "id": "gearOwner",
+        "id": "leagueOfHeroes",
         "title": "리그오브히어로스",
         "to": "/race/owner"
       }
@@ -46,12 +46,12 @@
     "sidebar": true,
     "submenus": [
       {
-        "id": "gearOwner",
+        "id": "supportCardList",
         "title": "서포트카드 목록",
         "to": "/gear/owner"
       },
       {
-        "id": "gearOwner",
+        "id": "skillList",
         "title": "스킬 목록",
         "to": "/gear/owner"
       }

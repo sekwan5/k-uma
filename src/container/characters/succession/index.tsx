@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import SuccessionTree from "./SuccessionTree";
+import SuccessionResult from "./SuccessionResult";
 import "./Succession.scss";
 import { Store } from "./Store";
 import { SelectionOrder, TreePositions } from "./types";
@@ -200,6 +201,18 @@ export default function Succession({ characterId }: SuccessionProps) {
     return !!(selectedPositions.parent1.main && selectedPositions.parent2.main);
   }, [selectedPositions.parent1.main, selectedPositions.parent2.main]);
 
+  // GI 보너스 값 상태
+  const [giBonus, setGiBonus] = useState(0);
+
+  // GI 보너스 조절 함수들
+  const handleGiBonusChange = (value: number) => {
+    setGiBonus(value);
+  };
+
+  const handleGiBonusIncrement = (amount: number) => {
+    setGiBonus((prev) => prev + amount);
+  };
+
   return (
     <div>
       <div className="succession-container">
@@ -232,15 +245,12 @@ export default function Succession({ characterId }: SuccessionProps) {
           />
         </div>
 
-        <div className="succession-result">
-          <div className="compatibility-score">
-            <h3>총 상성점수{parentScore}</h3>
-            <div className="score-display">
-              <span className="score-value">{totalCompatibilityScore}</span>
-              <span className="score-label">점</span>
-            </div>
-          </div>
-        </div>
+        <SuccessionResult
+          totalCompatibilityScore={totalCompatibilityScore}
+          giBonus={giBonus}
+          onGiBonusChange={handleGiBonusChange}
+          onGiBonusIncrement={handleGiBonusIncrement}
+        />
 
         <div className="control-buttons">
           <button className="reset-button" onClick={handleReset}>

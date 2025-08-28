@@ -33,6 +33,8 @@
 }
 .conArea {
   width: 100%;
+  max-width: 1280px;
+
   display: inline-grid;
 }
 .smodWrap {
@@ -254,6 +256,7 @@
 .fixArea {
   display: none;
   width: 100%;
+
   background-color: white;
   z-index: 99;
   justify-content: center;
