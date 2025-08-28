@@ -28,6 +28,13 @@ export default function SuccessionResult({
     return "◎";
   };
 
+  const getScoreMessage = (score: number) => {
+    if (score <= 0) return `△ 까지 ${1 - score}pt`;
+    if (score <= 50) return ` ○ 까지 ${51 - score}pt`;
+    if (score <= 150) return `◎ 까지 ${151 - score}pt`;
+    return "짱친!";
+  };
+
   return (
     <div className="succession-result">
       <div className="score-container">
@@ -42,7 +49,7 @@ export default function SuccessionResult({
           <span>종합평가</span>
         </div>
         <div className="score-assist">
-          <span>궁합 확실!</span>
+          <span>{getScoreMessage(finalScore)}</span>
         </div>
 
         <div className="g1-bonus-control">
@@ -74,7 +81,7 @@ export default function SuccessionResult({
                 </button>
                 <button
                   className="bonus-btn small"
-                  onClick={() => onGiBonusIncrement(-1)}
+                  onClick={() => onGiBonusIncrement(-3)}
                 >
                   <span>
                     <MinusIcon size="16px" />
@@ -91,7 +98,7 @@ export default function SuccessionResult({
                 </div>
                 <button
                   className="bonus-btn small"
-                  onClick={() => onGiBonusIncrement(1)}
+                  onClick={() => onGiBonusIncrement(3)}
                 >
                   <span>
                     <PlusIcon size="16px" />

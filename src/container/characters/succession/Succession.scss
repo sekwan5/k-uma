@@ -141,7 +141,6 @@ $shadow-dark: rgba(0, 0, 0, 0.23);
 
       .score-title {
         grid-area: iconLabel;
-        font-size: 0.8rem;
         font-weight: 600;
         color: $primary-color;
         text-align: center;
@@ -149,7 +148,6 @@ $shadow-dark: rgba(0, 0, 0, 0.23);
 
       .score-assist {
         grid-area: assist;
-        font-size: 0.8rem;
         font-weight: 600;
         color: $primary-color;
         text-align: center;
@@ -428,7 +426,20 @@ $shadow-dark: rgba(0, 0, 0, 0.23);
             }
 
             .level-badge {
-              @include level-badge-style;
+              position: absolute;
+              text-align: center;
+              bottom: -10px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 32px;
+              background: #dc3545;
+              color: white;
+              border-radius: 12px;
+              padding: 2px 8px;
+              font-size: 11px;
+              box-shadow: 0 2px 4px $shadow-light;
+              white-space: nowrap;
+              z-index: 10;
             }
           }
         }
@@ -463,6 +474,15 @@ $shadow-dark: rgba(0, 0, 0, 0.23);
           bottom: -10px;
           left: 50%;
           transform: translateX(-50%);
+          width: 32px;
+          background: #dc3545;
+          color: white;
+          border-radius: 12px;
+          padding: 2px 8px;
+          font-size: 11px;
+          box-shadow: 0 2px 4px $shadow-light;
+          white-space: nowrap;
+          z-index: 10;
         }
       }
 

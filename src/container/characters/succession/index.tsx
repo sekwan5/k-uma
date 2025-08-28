@@ -210,7 +210,11 @@ export default function Succession({ characterId }: SuccessionProps) {
   };
 
   const handleGiBonusIncrement = (amount: number) => {
-    setGiBonus((prev) => prev + amount);
+    setGiBonus((prev) => {
+      const newGiBonus = prev + amount;
+      if (newGiBonus < 0) return 0;
+      return newGiBonus;
+    });
   };
 
   return (
