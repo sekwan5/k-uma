@@ -19,6 +19,91 @@ export default function Succession({ characterId }: SuccessionProps) {
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const imgPath = import.meta.env.VITE_ASSETS_URL;
 
+  // 저장 리스트 관련 상태
+  const [savedSuccessions, setSavedSuccessions] = useState<
+    Array<{
+      id: string;
+      name: string;
+      characterId: string;
+      positions: TreePositions;
+      totalScore: number;
+      createdAt: Date;
+    }>
+  >([]);
+
+  // 로컬스토리지에서 저장 리스트 불러오기
+  const loadSavedList = () => {
+    try {
+      const stored = localStorage.getItem("succession_saved_list");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        // Date 객체 복원
+        return parsed.map((item: { createdAt: string | number | Date }) => ({
+          ...item,
+          createdAt: new Date(item.createdAt),
+        }));
+      }
+    } catch (error) {
+      console.error("저장 리스트를 불러오는데 실패했습니다:", error);
+    }
+    return [];
+  };
+
+  // 로컬스토리지에 저장 리스트 저장하기
+  const saveSavedList = (list: typeof savedSuccessions) => {
+    try {
+      localStorage.setItem("succession_saved_list", JSON.stringify(list));
+    } catch (error) {
+      console.error("저장 리스트를 저장하는데 실패했습니다:", error);
+    }
+  };
+
+  // 랜덤 ID 생성
+  const generateRandomId = () => {
+    return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+  };
+
+  // 현재 가계도를 저장 리스트에 추가
+  const saveCurrentSuccession = () => {
+    const newSuccession = {
+      id: generateRandomId(),
+      name: `가계도 ${savedSuccessions.length + 1}`,
+      characterId,
+      positions: selectedPositions,
+      totalScore: totalCompatibilityScore,
+      createdAt: new Date(),
+    };
+
+    const updatedList = [...savedSuccessions, newSuccession];
+    setSavedSuccessions(updatedList);
+    saveSavedList(updatedList);
+  };
+
+  // 저장된 가계도 불러오기
+  // const loadSavedSuccession = (savedId: string) => {
+  //   const saved = savedSuccessions.find((item) => item.id === savedId);
+  //   if (saved) {
+  //     setSelectedPositions(saved.positions);
+  //     // 첫 번째 빈 위치로 선택 위치 설정
+  //     const firstEmpty = findNextEmptyPosition(saved.positions);
+  //     if (firstEmpty) {
+  //       setCurrentSelection(firstEmpty);
+  //     }
+  //   }
+  // };
+
+  // 저장된 가계도 삭제
+  // const deleteSavedSuccession = (savedId: string) => {
+  //   const updatedList = savedSuccessions.filter((item) => item.id !== savedId);
+  //   setSavedSuccessions(updatedList);
+  //   saveSavedList(updatedList);
+  // };
+
+  // 저장 리스트 초기화
+  useEffect(() => {
+    setSavedSuccessions(loadSavedList());
+  }, []);
+
   // 선택된 캐릭터들
   const [selectedPositions, setSelectedPositions] = useState<TreePositions>({
     parent1: { main: null, child1: null, child2: null },
@@ -112,7 +197,8 @@ export default function Succession({ characterId }: SuccessionProps) {
   };
 
   // 빈 위치를 찾아 자동으로 다음 선택 위치를 설정하는 함수
-  const findNextEmptyPosition = () => {
+  const findNextEmptyPosition = (positions?: TreePositions) => {
+    const targetPositions = positions || selectedPositions;
     const order: SelectionOrder[] = [
       { parent: 1, position: "main" },
       { parent: 1, position: "child1" },
@@ -124,7 +210,7 @@ export default function Succession({ characterId }: SuccessionProps) {
 
     for (const pos of order) {
       const parentKey = `parent${pos.parent}` as keyof TreePositions;
-      if (!selectedPositions[parentKey][pos.position]) {
+      if (!targetPositions[parentKey][pos.position]) {
         return pos;
       }
     }
@@ -141,11 +227,14 @@ export default function Succession({ characterId }: SuccessionProps) {
 
   // 초기화 함수
   const handleReset = useCallback(() => {
-    setSelectedPositions({
+    const resetPositions = {
       parent1: { main: null, child1: null, child2: null },
       parent2: { main: null, child1: null, child2: null },
-    });
-    setCurrentSelection({ parent: 1, position: "main" });
+    };
+    const resetSelection: SelectionOrder = { parent: 1, position: "main" };
+
+    setSelectedPositions(resetPositions);
+    setCurrentSelection(resetSelection);
   }, []);
 
   // characterData를 배열로 변환
@@ -293,10 +382,16 @@ export default function Succession({ characterId }: SuccessionProps) {
         />
 
         <div className="control-buttons">
-          <button className="reset-button" onClick={handleReset}>
+          <button className="cancel-button" onClick={handleReset}>
             초기화
           </button>
           <button className="submit-button">자동 선택</button>
+          <button className="cancel-button" onClick={saveCurrentSuccession}>
+            저장
+          </button>
+          <button className="cancel-button" onClick={saveCurrentSuccession}>
+            불러오기
+          </button>
         </div>
 
         <div className="character-selector">

@@ -550,8 +550,9 @@ $shadow-dark: rgba(0, 0, 0, 0.23);
       font-size: 11px;
       background: #f0f0f0;
       height: 24px;
+      width: 90px;
 
-      &.reset-button {
+      &.cancel-button {
         color: #000;
         @include button-shadow;
       }
