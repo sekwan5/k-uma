@@ -2,7 +2,7 @@ import { characterData } from "../../../modules/data/characters";
 import { relation } from "../../../modules/data/succession";
 
 // 캐릭터 데이터를 나타내는 인터페이스
-interface CharaData {
+export interface CharaData {
   id: string; // 캐릭터 ID (1001, 1002 등)
   name: string; // 캐릭터 이름
   icon: string; // 캐릭터 이름
@@ -15,6 +15,12 @@ interface CharaData {
         background: string;
       }
     | string;
+  aptitude?: {
+    surface: { [string: string]: number };
+    distance: { [string: string]: number };
+    style: { [string: string]: number };
+  }[];
+  profile?: number[];
 }
 
 // 캐릭터 관계 데이터를 관리하는 Store 클래스
@@ -26,24 +32,15 @@ export class Store {
       return "succession" in data || "successionData" in data;
     })
     .map(([id, data]) => {
-      // succession 데이터 추출
-      let successionArray: number[] = [];
-      if ("succession" in data && data.succession) {
-        successionArray = data.succession;
-      } else if (
-        "successionData" in data &&
-        (data as { successionData: number[] }).successionData
-      ) {
-        successionArray = (data as { successionData: number[] }).successionData;
-      }
-
       return {
         id,
         name: data.name,
         icon: data.icon,
         keyword: "keyword" in data ? data.keyword : undefined,
-        relationSet: new Set(successionArray),
+        relationSet: new Set(data.succession as number[]),
         color: data.color,
+        aptitude: data.aptitude ?? [],
+        profile: data.profile ?? [],
       };
     });
 

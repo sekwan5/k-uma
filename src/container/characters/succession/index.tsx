@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useMemo, useCallback, useEffect } from "react";
-import SuccessionTree from "./successionTree";
-import SuccessionResult from "./SuccessionResult";
-import "./Succession.scss";
-import { Store } from "./Store";
-import { SelectionOrder, TreePositions } from "./types";
+import useDebounce from "@/hooks/useDebounce";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { filteredCharacters } from "../hooks";
 import { Character } from "../succession";
 import CharacterItem from "./CharacterItem";
-import useDebounce from "@/hooks/useDebounce";
-import { filteredCharacters } from "../hooks";
+import { Store } from "./Store";
+import "./Succession.scss";
+import SuccessionResult from "./SuccessionResult";
+import SuccessionTree from "./successionTree";
+import { SelectionOrder, TreePositions } from "./types";
+import CharacterInfo from "./CharacterInfo";
 
 interface SuccessionProps {
   characterId: string;
@@ -26,7 +27,6 @@ export default function Succession({ characterId }: SuccessionProps) {
       name: string;
       characterId: string;
       positions: TreePositions;
-      totalScore: number;
       createdAt: Date;
     }>
   >([]);
@@ -70,7 +70,6 @@ export default function Succession({ characterId }: SuccessionProps) {
       name: `가계도 ${savedSuccessions.length + 1}`,
       characterId,
       positions: selectedPositions,
-      totalScore: totalCompatibilityScore,
       createdAt: new Date(),
     };
 
@@ -296,42 +295,33 @@ export default function Succession({ characterId }: SuccessionProps) {
     );
   }, [selectedPositions]);
 
-  // 총 상성점수 계산
-  const totalCompatibilityScore = useMemo(() => {
-    return Store.calcTotalCompatibility(
-      characterId,
-      selectedPositions.parent1.main?.id || null,
-      selectedPositions.parent2.main?.id || null,
-      selectedPositions.parent1.child1?.id || null,
-      selectedPositions.parent1.child2?.id || null,
-      selectedPositions.parent2.child1?.id || null,
-      selectedPositions.parent2.child2?.id || null,
-    );
-  }, [selectedPositions, characterId]);
-
   // 양쪽 부모가 모두 선택되었는지 확인
   const isBothParentsSelected = useMemo(() => {
     return !!(selectedPositions.parent1.main && selectedPositions.parent2.main);
   }, [selectedPositions.parent1.main, selectedPositions.parent2.main]);
 
-  // GI 보너스 값 상태
-  const [giBonus, setGiBonus] = useState(0);
-
-  // GI 보너스 조절 함수들
-  const handleGiBonusChange = (value: number) => {
-    setGiBonus(value);
-  };
-
-  const handleGiBonusIncrement = (amount: number) => {
-    setGiBonus((prev) => {
-      const newGiBonus = prev + amount;
-      if (newGiBonus < 0) return 0;
-      return newGiBonus;
-    });
-  };
-
   return (
     <div>
+      <div className="character-info-container">
+        <CharacterInfo
+          trackSuitability={{
+            turf: 1,
+            dirt: 7,
+          }}
+          distanceSuitability={{
+            sprint: 4,
+            mile: 1,
+            medium: 1,
+            long: 5,
+          }}
+          runningStyleSuitability={{
+            front: 1,
+            pace: 3,
+            late: 5,
+            end: 7,
+          }}
+        />
+      </div>
       <div className="succession-container">
         <div className={`succession-parent-1 `}>
           <SuccessionTree
@@ -375,10 +365,8 @@ export default function Succession({ characterId }: SuccessionProps) {
         </div>
 
         <SuccessionResult
-          totalCompatibilityScore={totalCompatibilityScore}
-          giBonus={giBonus}
-          onGiBonusChange={handleGiBonusChange}
-          onGiBonusIncrement={handleGiBonusIncrement}
+          selectedPositions={selectedPositions}
+          characterId={characterId}
         />
 
         <div className="control-buttons">

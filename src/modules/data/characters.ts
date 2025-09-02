@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { successionData } from "./succession";
 
-export const characterData = {
+export const characterData: Record<string, any> = {
   1001: {
     eng: "Special Week",
     name: "스페셜 위크",
@@ -22,6 +23,24 @@ export const characterData = {
     sizes: "B81 · W56 · H81",
     icon: "specialweek_icon.png",
     succession: successionData.スペシャルウィーク,
+    aptitude: [
+      {
+        surface: { turf: 1, dirt: 7 },
+        distance: { sprint: 6, mile: 3, medium: 1, long: 1 },
+        style: { front: 7, pace: 1, late: 1, end: 3 },
+      },
+      {
+        surface: { turf: 1, dirt: 7 },
+        distance: { sprint: 6, mile: 3, medium: 1, long: 1 },
+        style: { front: 7, pace: 1, late: 1, end: 3 },
+      },
+      {
+        surface: { turf: 1, dirt: 7 },
+        distance: { sprint: 6, mile: 3, medium: 1, long: 1 },
+        style: { front: 7, pace: 1, late: 1, end: 3 },
+      },
+    ],
+    profile: [100101, 100102, 100103],
     keyword: "스페",
   },
   1002: {
@@ -41,6 +60,19 @@ export const characterData = {
     sizes: "B70 · W53  · H79",
     icon: "silencesuzuka_icon.png",
     succession: successionData.サイレンススズカ,
+    aptitude: [
+      {
+        surface: { turf: 1, dirt: 7 },
+        distance: { sprint: 4, mile: 1, medium: 1, long: 5 },
+        style: { front: 1, pace: 3, late: 5, end: 7 },
+      },
+      {
+        surface: { turf: 1, dirt: 7 },
+        distance: { sprint: 6, mile: 3, medium: 1, long: 1 },
+        style: { front: 7, pace: 1, late: 1, end: 3 },
+      },
+    ],
+    profile: [100201, 100202],
   },
   1003: {
     eng: "Tokai Teio",

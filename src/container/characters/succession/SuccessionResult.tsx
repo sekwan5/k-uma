@@ -1,25 +1,37 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PlusIcon, MinusIcon } from "../../../components/common/icons";
+import { TreePositions } from "./types";
+import { Store } from "./Store";
 
 interface SuccessionResultProps {
-  totalCompatibilityScore: number;
-  giBonus: number;
-  onGiBonusChange: (value: number) => void;
-  onGiBonusIncrement: (amount: number) => void;
+  selectedPositions: TreePositions;
+  characterId: string;
 }
 
 export default function SuccessionResult({
-  totalCompatibilityScore,
-  giBonus,
-  onGiBonusChange,
-  onGiBonusIncrement,
+  selectedPositions,
+  characterId,
 }: SuccessionResultProps) {
   // △ ○ ◎
   const [finalScore, setFinalScore] = useState(0);
+  const [g1Bonus, setG1Bonus] = useState(0);
+
+  // 총 상성점수 계산
+  const totalCompatibilityScore = useMemo(() => {
+    return Store.calcTotalCompatibility(
+      characterId,
+      selectedPositions.parent1.main?.id || null,
+      selectedPositions.parent2.main?.id || null,
+      selectedPositions.parent1.child1?.id || null,
+      selectedPositions.parent1.child2?.id || null,
+      selectedPositions.parent2.child1?.id || null,
+      selectedPositions.parent2.child2?.id || null,
+    );
+  }, [selectedPositions, characterId]);
 
   useEffect(() => {
-    setFinalScore(totalCompatibilityScore + giBonus);
-  }, [totalCompatibilityScore, giBonus]);
+    setFinalScore(totalCompatibilityScore + g1Bonus);
+  }, [totalCompatibilityScore, g1Bonus]);
 
   const getScoreIcon = (score: number) => {
     if (score <= 0) return "-";
@@ -33,6 +45,18 @@ export default function SuccessionResult({
     if (score <= 50) return ` ○ 까지 ${51 - score}pt`;
     if (score <= 150) return `◎ 까지 ${151 - score}pt`;
     return "짱친!";
+  };
+
+  const onG1BonusIncrement = (amount: number) => {
+    setG1Bonus((prev) => {
+      const newG1Bonus = prev + amount;
+      if (newG1Bonus < 0) return 0;
+      return newG1Bonus;
+    });
+  };
+
+  const onG1BonusChange = (value: number) => {
+    setG1Bonus(value);
   };
 
   return (
@@ -75,13 +99,13 @@ export default function SuccessionResult({
               <div className="g1-bonus-input-grid">
                 <button
                   className="bonus-btn large"
-                  onClick={() => onGiBonusIncrement(-15)}
+                  onClick={() => onG1BonusIncrement(-15)}
                 >
                   <span>-15</span>
                 </button>
                 <button
                   className="bonus-btn small"
-                  onClick={() => onGiBonusIncrement(-3)}
+                  onClick={() => onG1BonusIncrement(-3)}
                 >
                   <span>
                     <MinusIcon size="16px" />
@@ -92,13 +116,13 @@ export default function SuccessionResult({
                     min="0"
                     max="999"
                     type="number"
-                    value={giBonus}
-                    onChange={(e) => onGiBonusChange(Number(e.target.value))}
+                    value={g1Bonus}
+                    onChange={(e) => onG1BonusChange(Number(e.target.value))}
                   />
                 </div>
                 <button
                   className="bonus-btn small"
-                  onClick={() => onGiBonusIncrement(3)}
+                  onClick={() => onG1BonusIncrement(3)}
                 >
                   <span>
                     <PlusIcon size="16px" />
@@ -106,7 +130,7 @@ export default function SuccessionResult({
                 </button>
                 <button
                   className="bonus-btn large"
-                  onClick={() => onGiBonusIncrement(15)}
+                  onClick={() => onG1BonusIncrement(15)}
                 >
                   <span>+15</span>
                 </button>
