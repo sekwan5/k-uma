@@ -31,6 +31,8 @@ export default function Succession({ characterId }: SuccessionProps) {
     }>
   >([]);
 
+  const [characterIndex, setCharacterIndex] = useState<number>(0);
+
   // 로컬스토리지에서 저장 리스트 불러오기
   const loadSavedList = () => {
     try {
@@ -299,28 +301,15 @@ export default function Succession({ characterId }: SuccessionProps) {
   const isBothParentsSelected = useMemo(() => {
     return !!(selectedPositions.parent1.main && selectedPositions.parent2.main);
   }, [selectedPositions.parent1.main, selectedPositions.parent2.main]);
+  const character = useMemo(() => {
+    setCharacterIndex(0);
+    return Store.getCharaById(characterId) || null;
+  }, [characterId]);
 
   return (
     <div>
       <div className="character-info-container">
-        <CharacterInfo
-          trackSuitability={{
-            turf: 1,
-            dirt: 7,
-          }}
-          distanceSuitability={{
-            sprint: 4,
-            mile: 1,
-            medium: 1,
-            long: 5,
-          }}
-          runningStyleSuitability={{
-            front: 1,
-            pace: 3,
-            late: 5,
-            end: 7,
-          }}
-        />
+        <CharacterInfo character={character} index={characterIndex} />
       </div>
       <div className="succession-container">
         <div className={`succession-parent-1 `}>

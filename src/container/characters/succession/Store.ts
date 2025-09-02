@@ -152,9 +152,9 @@ export class Store {
   }
 
   // ID로 캐릭터 정보 가져오기
-  static getCharaById(id: string): CharaData | null {
+  static getCharaById(id: string): CharaData {
     const index = this.getIndexById(id);
-    return index !== -1 ? this.charaList[index] : null;
+    return index !== -1 ? this.charaList[index] : ({} as CharaData);
   }
 
   // 이름으로 캐릭터 정보 가져오기

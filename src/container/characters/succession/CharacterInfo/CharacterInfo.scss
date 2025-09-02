@@ -1,6 +1,21 @@
 .character-info {
   margin-bottom: 20px;
 
+  .character-info-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+
+    .header-section {
+      flex-shrink: 0;
+      width: 300px;
+    }
+
+    .info-section {
+      flex: 1;
+    }
+  }
+
   .info-table {
     border: 2px solid #6bcf7f;
     border-radius: 8px;
