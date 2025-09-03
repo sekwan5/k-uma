@@ -1,7 +1,6 @@
 import axios, {
   AxiosInstance,
   AxiosError,
-  // AxiosRequestConfig,
   InternalAxiosRequestConfig,
   AxiosResponse,
 } from "axios";
@@ -48,18 +47,6 @@ export class AbstractApi {
   onRequest = (
     config: InternalAxiosRequestConfig,
   ): InternalAxiosRequestConfig => {
-    const { method } = config;
-
-    config.headers["X-API-Key"] = import.meta.env.VITE_API_KEY;
-
-    if (method === "get") {
-      config.params = {
-        ...config.params,
-        _t: Date.now(),
-      };
-      config.timeout = config.timeout ? config.timeout : 15000;
-    }
-
     return config;
   };
 

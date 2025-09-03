@@ -40,21 +40,9 @@
     ]
   },
   {
-    "id": "training",
-    "title": "육성",
-    "to": "/training",
-    "sidebar": true,
-    "submenus": [
-      {
-        "id": "supportCardList",
-        "title": "서포트카드 목록",
-        "to": "/gear/owner"
-      },
-      {
-        "id": "skillList",
-        "title": "스킬 목록",
-        "to": "/gear/owner"
-      }
-    ]
+    "id": "ㅅㄷㄴㅅ",
+    "title": "테스트",
+    "to": "/test",
+    "sidebar": true
   }
 ]

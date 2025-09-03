@@ -21,12 +21,3 @@ export interface PaginationList {
   list: IndexSignatureType[];
   pagination: Pagination;
 }
-
-// Window 인터페이스를 전역으로 확장
-declare global {
-  interface Window {
-    kakao: {
-      ads: any;
-    };
-  }
-}
