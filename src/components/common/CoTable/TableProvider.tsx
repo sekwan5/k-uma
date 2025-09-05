@@ -29,6 +29,7 @@ interface TableActionContextType {
   setRowsOnly: (rows: IndexSignatureType[]) => void;
   setPage: (page: number) => void;
   setFilter: (key: string, value: string) => void;
+  setSize: (value: number) => void;
   setLink: (key: string, value: string) => void;
   setLinkName: (key: string, value: string) => void;
   resetFilter: () => void;
@@ -58,6 +59,7 @@ const TableActionContext = React.createContext<TableActionContextType>({
   setRowsOnly: () => {},
   setPage: () => {},
   setFilter: () => {},
+  setSize: () => {},
   setLink: () => {},
   setLinkName: () => {},
   resetFilter: () => {},
@@ -135,6 +137,18 @@ const TableProvider = ({ children }: { children: React.ReactNode }) => {
           };
         });
       },
+      setSize(value: number) {
+        setValues((prev) => {
+          const a = {
+            ...prev,
+            pagination: {
+              ...prev.pagination,
+              size: value,
+            },
+          };
+          return a;
+        });
+      },
       setLink(key: string, value: string) {
         setValues((prev) => {
           const links = prev.links ?? {};
@@ -176,10 +190,6 @@ const TableProvider = ({ children }: { children: React.ReactNode }) => {
         const value = event.target.value;
         const datasetKey = event.target.dataset.key;
         const datasetValue = event.target.dataset.value;
-
-        // event.target.type === "checkbox"
-        //   ? (event.target as HTMLInputElement).checked
-        //   : event.target.value;
 
         if (!name) return;
 
@@ -224,6 +234,7 @@ const TableProvider = ({ children }: { children: React.ReactNode }) => {
         const filters = structuredClone(values.filters);
         const links = values.links;
         const linkNames = values.linkNames;
+
         let validate = true;
         Object.keys(links).forEach((key) => {
           if (!filters[key]) {

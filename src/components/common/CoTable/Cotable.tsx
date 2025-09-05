@@ -7,11 +7,12 @@ import { IndexSignatureType } from "@/modules/types";
 import { useTableActions, useTableValue } from "./TableProvider";
 import { api } from "@/modules/api/api";
 import { TableCheckbox } from "./TableCheckbox";
+import { CoPagination } from "../CoPagination";
+import { SetPageSize } from "./SetPageSize";
 
 export interface CoTableColumn<T = any> {
   title: string;
   key: string;
-  sort?: boolean;
   class?: string;
   render?: (val: T) => React.ReactNode;
 }
@@ -33,6 +34,8 @@ export interface CoTableProps
   isPagination?: boolean;
   getFilter?(): IndexSignatureType;
   url?: string;
+  searchKeys: { id: string; name: string }[];
+  useFilter: boolean;
 }
 
 const CoTable = React.forwardRef<HTMLTableElement, CoTableProps>(
@@ -50,6 +53,8 @@ const CoTable = React.forwardRef<HTMLTableElement, CoTableProps>(
       isPagination = true,
       getFilter,
       url,
+      searchKeys,
+      useFilter,
       ...props
     },
     ref,
@@ -172,6 +177,9 @@ const CoTable = React.forwardRef<HTMLTableElement, CoTableProps>(
 
     const table = (
       <>
+        {isPagination && (
+          <SetPageSize searchKeys={searchKeys} useFilter={useFilter} />
+        )}
         <table {...props} className={classes} ref={ref}>
           <thead>
             <tr>
@@ -251,7 +259,7 @@ const CoTable = React.forwardRef<HTMLTableElement, CoTableProps>(
             })}
           </tbody>
         </table>
-        {isPagination && <></>}
+        {isPagination && <CoPagination />}
       </>
     );
 
