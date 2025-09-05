@@ -26,15 +26,15 @@ export const SetPageSize = ({ searchKeys, useFilter }: SetPageSizeProps) => {
               name="search_key"
               options={searchKeys}
               isAll={false}
-              data-value="search_string"
               linkedKey="search_key"
+              linkedValue="search_string"
             />
             <CoForm.Control
               type="text"
               name="search_string"
               placeholder="검색어를 입력해 주세요."
-              data-key="search_key"
-              linkedKey="search_string"
+              linkedKey="search_key"
+              linkedValue="search_string"
             />
             <button onClick={search}>검색</button>
           </>

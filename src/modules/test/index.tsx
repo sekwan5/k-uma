@@ -53,6 +53,7 @@ export default function Test() {
   ];
 
   const searchKeys = [
+    { id: "", name: "선택" },
     { id: "title", name: "제목" },
     { id: "user_name", name: "작성자" },
   ];

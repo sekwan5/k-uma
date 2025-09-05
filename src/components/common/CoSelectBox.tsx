@@ -20,32 +20,37 @@ export interface SelectBoxProps<V extends string | number>
   isAll?: boolean;
   optionKey?: string;
   optionValue?: string;
-  linkedKey?: string;
   linkedValue?: string;
+  linkedKey?: string;
   linkName?: string;
 }
 
-export default function CoSelectBox<V extends string | number = string>({
-  className,
-  options,
-  onChange,
-  placeholder,
-  disabled,
-  id,
-  name,
-  isAll = true,
-  optionKey = "id",
-  optionValue = "name",
-  linkedKey,
-  linkedValue,
-  linkName,
-}: SelectBoxProps<V>) {
+function CoSelectBoxInner<V extends string | number = string>(
+  {
+    className,
+    options,
+    onChange,
+    placeholder,
+    disabled,
+    id,
+    name,
+    isAll = true,
+    optionKey = "id",
+    optionValue = "name",
+    linkedValue,
+    linkedKey,
+    linkName,
+    ...rest
+  }: SelectBoxProps<V>,
+  ref: React.ForwardedRef<HTMLSelectElement>,
+) {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (onChange) onChange(e);
   };
 
   return (
     <select
+      {...rest}
       className={classNames(className)}
       id={id}
       name={name}
@@ -55,6 +60,7 @@ export default function CoSelectBox<V extends string | number = string>({
       data-key={linkedKey}
       data-value={linkedValue}
       data-link-name={linkName}
+      ref={ref}
     >
       {typeof placeholder === "string" && placeholder.length > 0 && (
         <option value="" disabled>
@@ -79,3 +85,11 @@ export default function CoSelectBox<V extends string | number = string>({
     </select>
   );
 }
+
+const CoSelectBox = React.forwardRef(CoSelectBoxInner) as <
+  V extends string | number = string,
+>(
+  props: SelectBoxProps<V> & React.RefAttributes<HTMLSelectElement>,
+) => React.ReactElement;
+
+export default CoSelectBox;

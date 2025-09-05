@@ -5,7 +5,8 @@ import { useFormActions } from "./CoFormProvider";
 
 type LcFormControlElement = HTMLInputElement;
 
-export interface LcFormControlProps {
+export interface LcFormControlProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   id?: string;
   className?: string;
   onChange?: (e: React.ChangeEvent<LcFormControlElement>) => void;
@@ -15,6 +16,9 @@ export interface LcFormControlProps {
   readOnly?: boolean;
   disabled?: boolean;
   type?: string;
+  linkedKey?: string;
+  linkedValue?: string;
+  linkName?: string;
 }
 
 const LcFormControl = React.forwardRef<
@@ -31,7 +35,10 @@ const LcFormControl = React.forwardRef<
       name,
       readOnly,
       disabled,
-      ...props
+      linkedKey,
+      linkedValue,
+      linkName,
+      ...rest
     },
     ref,
   ) => {
@@ -47,12 +54,14 @@ const LcFormControl = React.forwardRef<
 
     return (
       <input
-        {...props}
         ref={ref}
         type={type}
         readOnly={readOnly}
         id={id}
         name={name}
+        data-key={linkedKey}
+        data-value={linkedValue}
+        data-link-name={linkName}
         onChange={(e: React.ChangeEvent<LcFormControlElement>) => {
           if (filterActions !== null) filterActions.handleChange(e);
           if (formAction !== null) formAction.handleChange(e);
@@ -61,6 +70,7 @@ const LcFormControl = React.forwardRef<
         onFocus={onFocus}
         disabled={disabled}
         className={classNames(className)}
+        {...rest}
       />
     );
   },

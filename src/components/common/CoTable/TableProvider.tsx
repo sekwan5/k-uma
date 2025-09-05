@@ -50,7 +50,7 @@ const TableValueContext = React.createContext<TableValueContextType>({
     totalPages: 0,
   },
   refresh: false,
-  initialized: false,
+  initialized: true,
 });
 
 const TableActionContext = React.createContext<TableActionContextType>({
@@ -235,14 +235,28 @@ const TableProvider = ({ children }: { children: React.ReactNode }) => {
         const links = values.links;
         const linkNames = values.linkNames;
 
+        console.log("filters", filters);
+        console.log("links", links);
+        console.log("linkNames", linkNames);
+
         let validate = true;
         Object.keys(links).forEach((key) => {
           if (!filters[key]) {
-            console.log(`${linkNames[key]}를 선택해주세요.`);
+            if (!filters[links[key]] || filters[links[key]] == "") {
+              // 키필드가 없을때 값필드가 없거나 공백이면 그냥 통과
+              return false;
+            }
+            //키필드 체크
+            console.log(`${linkNames[key]}를 선택해 주세요.`);
             validate = false;
             return false;
           } else if (!filters[links[key]]) {
-            console.log(`${linkNames[links[key]]}를 입력해주세요.`);
+            if (!filters[key] || filters[key] == "") {
+              //값필드가 없을때 키필드가 없거나 공백이면 그냥 통과
+              return false;
+            }
+            //값 필드 체크
+            console.log(`${linkNames[links[key]]}를 입력해 주세요.`);
             validate = false;
             return false;
           } else {
